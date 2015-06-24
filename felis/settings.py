@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-
-
+# Parse database configuration from $DATABASE_URL
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///db.sqlite')
+}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -82,9 +85,8 @@ WSGI_APPLICATION = 'felis.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+
+
 
 ##DATABASES = {
 ##    'default': {

@@ -16,6 +16,10 @@ DATABASES = {
     'default': dj_database_url.config(default='sqlite:///db.sqlite')
 }
 
+ADMINS = (
+    ('admin', 'dominikzab@gmail.com'),
+)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 

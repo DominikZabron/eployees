@@ -2,7 +2,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib import admin
 
-from employees.models import Employee
+from .models import Employee
 
 """
 from django.contrib.auth.admin import UserAdmin

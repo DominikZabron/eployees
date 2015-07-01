@@ -3,7 +3,7 @@ from django.db import models
 
 class Employee(models.Model):
 	user = models.OneToOneField(User, related_name='user')
-	middle_name = models.CharField('Drugie imie', max_length=200)
+	middle_name = models.CharField('Drugie imie', max_length=200, blank=True)
 	pesel = models.CharField('Pesel', max_length=11)
 	id_number = models.CharField('Nr dowodu', max_length=9)
 	street = models.CharField('Adres', max_length=200)

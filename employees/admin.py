@@ -57,7 +57,7 @@ class UserAdmin(UserAdmin):
 """
 
 class EmployeeListAdminForm(ModelForm):	
-	imie = CharField(max_length=200, label='imie')
+	imie = CharField(max_length=200)
 	nazwisko = CharField(max_length=200)
 	email = CharField(max_length=200)
 	
@@ -82,14 +82,20 @@ class EmployeeListAdmin(admin.ModelAdmin):
 	list_display = ('name',)
 	
 	def name(self, obj):
-		return ("%s %s" % (obj.user.last_name, obj.user.first_name))
+		full_name = "%s %s" % (obj.user.last_name, obj.user.first_name)
+		
+		if full_name <> ' ':
+			return full_name
+		else:
+			return '<< ERROR::Uzytkownicy::Dane osobowe:: >>BRAK DANYCH<< >>'
+			
 	name.short_description = "Pracownicy"
 	
 	def has_add_permission(self, request):
 		return False
 
-#admin.site.unregister(User)
-#admin.site.register(User, UserAdmin)
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Employee, EmployeeListAdmin)
 
 

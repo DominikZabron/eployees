@@ -1,6 +1,7 @@
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib import admin
+from django.forms import ModelForm, CharField
 
 from .models import Employee
 
@@ -30,18 +31,7 @@ class EmployeeList(admin.ModelAdmin):
 	class Meta:
 		model = Employee
 		can_delete = False
- """
-
-class EmployeeInline(admin.StackedInline):
-	model = Employee
-	can_delete = False	
-			
-class UserAdmin(UserAdmin):
-	inlines = (EmployeeInline,)
 	
-	list_display = ('username', 'first_name', 'last_name', 'email')
-	
-"""
 	fieldsets = (
 		(None, {'fields': ('username', 'password')}),
 		{'fields': 
@@ -51,7 +41,55 @@ class UserAdmin(UserAdmin):
 		}), 
 		{'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}), 
 		{'fields': ('last_login', 'date_joined')}))
+
+# This works, source: docs.djangoproject.com
+
+class EmployeeInline(admin.StackedInline):
+	model = Employee
+	can_delete = False	
+			
+class UserAdmin(UserAdmin):
+	inlines = (EmployeeInline,)
+	
+	list_display = ('username', 'last_name', 'first_name', 'email')
+	
+# working code ends here
 """
 
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+class EmployeeListAdminForm(ModelForm):	
+	imie = CharField(max_length=200, label='imie')
+	nazwisko = CharField(max_length=200)
+	email = CharField(max_length=200)
+	
+	def __init__(self, *args, **kwds):
+		super(EmployeeListAdminForm, self).__init__(*args, **kwds)
+		self.fields['imie'].initial = self.instance.user.first_name
+		self.fields['nazwisko'].initial = self.instance.user.last_name
+		self.fields['email'].initial = self.instance.user.email	
+		#self.fields['user'].queryset = User.objects.order_by('last_name')
+		
+	class Meta:
+		model = Employee
+		fields = (
+			'imie', 'middle_name', 'nazwisko',
+			'street', 'city', 'postcode', 'country',
+			'pesel', 'id_number', 'email'
+		)
+
+		
+class EmployeeListAdmin(admin.ModelAdmin):
+	form = EmployeeListAdminForm
+	list_display = ('name',)
+	
+	def name(self, obj):
+		return ("%s %s" % (obj.user.last_name, obj.user.first_name))
+	name.short_description = "Pracownicy"
+	
+	def has_add_permission(self, request):
+		return False
+
+#admin.site.unregister(User)
+#admin.site.register(User, UserAdmin)
+admin.site.register(Employee, EmployeeListAdmin)
+
+

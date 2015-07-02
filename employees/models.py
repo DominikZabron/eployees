@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class Employee(models.Model):
-	user = models.OneToOneField(User, related_name='user')
+	user = models.OneToOneField(User, parent_link=True, related_name='user')
 	middle_name = models.CharField('Drugie imie', max_length=200, blank=True)
 	pesel = models.CharField('Pesel', max_length=11)
 	id_number = models.CharField('Nr dowodu', max_length=9)
@@ -12,8 +12,8 @@ class Employee(models.Model):
 	country = models.CharField('Kraj', max_length=200, default='Polska')
 	
 	class Meta:
-		verbose_name = 'dane dodatkowe'
-		verbose_name_plural = 'dane dodatkowe'
+		verbose_name = 'dane pracownika'
+		verbose_name_plural = 'dane osobowe'
 	
 	def __str__(self):
 		return self.user.username

@@ -10,14 +10,14 @@ class Employee(models.Model):
 	street = models.CharField('Adres', max_length=200, blank=True)
 	city = models.CharField('Miejscowosc', max_length=200, blank=True)
 	postcode = models.CharField('Kod pocztowy', max_length=200, blank=True)
-	country = models.CharField('Kraj', max_length=200, default='Polska', blank=True)		
-	
+	country = models.CharField('Kraj', max_length=200, default='Polska', blank=True)	
+		
+	def __str__(self):
+		return self.user.username	
+		
 	class Meta:
 		verbose_name = 'dane pracownika'
 		verbose_name_plural = 'dane osobowe'
-	
-	def __str__(self):
-		return self.user.username
 
 def create_employee(sender, instance, created, **kwargs):
 	if created:

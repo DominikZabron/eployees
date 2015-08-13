@@ -11,15 +11,15 @@ class BusinessTripAdmin(admin.ModelAdmin):
 
 def make_approve(modeladmin, request, queryset):
 	queryset.update(status='a')
-make_approve.short_description = 'Zaakceptuj wybrane Wyjazdy służbowe'
+make_approve.short_description = 'Zaakceptuj wybrane wnioski'
 	
 def make_disapprove(modeladmin, request, queryset):
 	queryset.update(status='r')
-make_disapprove.short_description = 'Odrzuć wybrane Wyjazdy służbowe'
+make_disapprove.short_description = 'Odrzuć wybrane wnioski'
 
 @admin.register(BusinessTripItem)
 class BusinessTripItemAdmin(admin.ModelAdmin):
-	list_display = ('__str__', 'business_trip', 'status')
+	list_display = ('__str__', 'business_trip', 'estimated_cost', 'status')
 	exclude = ('status',)
 	actions = (make_approve, make_disapprove)
 

@@ -8,6 +8,7 @@ from django.db import models
 class BusinessTrip(models.Model):
 	purpose = models.CharField('Cel wyjazdu', max_length=255)
 	begin_date = models.DateField('Rozpoczęcie')
+	description = models.TextField('Opis', blank=True)
 	
 	def __str__(self):
 		return self.purpose
@@ -38,13 +39,13 @@ class BusinessTripItem(models.Model):
 	trip_to = models.CharField('Miejsce docelowe', max_length=255)
 	end_time = models.DateTimeField('Koniec wyjazdu')
 	transportation = models.CharField('Środek transportu', max_length=1, choices=TRANSPORT_TYPE)
-	vehicle = models.ForeignKey('assets.Car', verbose_name='Pojazd')
+	vehicle = models.ForeignKey('assets.Car', verbose_name='Pojazd', blank=True, null=True)
 	distance = models.IntegerField('Odległość [km]')
-	estimated_cost = models.DecimalField('Szacunkowy koszt', max_digits=9, decimal_places=2)
+	estimated_cost = models.DecimalField('Szacunkowy koszt [zł]', max_digits=9, decimal_places=2)
 	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
 	
 	def __str__(self):
-		return self.employee.get_full_name()
+		return self.employee.get_full_name() + ' - ' + self.business_trip.__str__()
 		
 	class Meta:
 		verbose_name = 'Wyjazd służbowy'
@@ -52,13 +53,13 @@ class BusinessTripItem(models.Model):
 		
 @python_2_unicode_compatible
 class BusinessTripSettlement(models.Model):
-	business_trip_item = models.ForeignKey(BusinessTripItem, verbose_name='Wyjazd służbowy')
+	business_trip = models.ForeignKey(BusinessTrip, verbose_name='Delegacja')
 	costs_all = models.DecimalField('Łączne koszty do rozliczenia', max_digits=9, decimal_places=2)
 	description = models.TextField('Opis', blank=True)
 	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
 	
 	def __str__(self):
-		return self.business_trip_item.__str__() + ' - ' + self.business_trip_item.business_trip.__str__()
+		return self.business_trip.__str__()
 		
 	class Meta:
 		verbose_name = 'Rozliczenie'

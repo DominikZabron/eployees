@@ -10,7 +10,7 @@ class Car(models.Model):
 	user = models.ForeignKey(User, verbose_name='Pracownik', null=True, blank=True)
 	
 	def __str__(self):
-		return self.name
+		return self.registration_number
 		
 	class Meta:
 		verbose_name = 'pojazd'

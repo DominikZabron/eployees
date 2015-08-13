@@ -14,7 +14,9 @@ class Employee(models.Model):
 	street = models.CharField('Adres', max_length=200, blank=True)
 	city = models.CharField('Miejscowość', max_length=200, blank=True)
 	postcode = models.CharField('Kod pocztowy', max_length=200, blank=True)
-	country = models.CharField('Kraj', max_length=200, default='Polska', blank=True)	
+	country = models.CharField('Kraj', max_length=200, default='Polska', blank=True)
+	medical_check_date = models.DateField('Data ważności badania lekarskiego', blank=True, null=True)
+	health_safety_date = models.DateField('Data ważności szkolenia BHP', blank=True, null=True)
 		
 	def __str__(self):
 		return self.user.username	

@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'employees',
     'assets',
     'leaves',
+    'trips',
 )
 
 MIDDLEWARE_CLASSES = (

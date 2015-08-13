@@ -8,26 +8,7 @@ from django.forms import ModelForm, CharField
 from .models import Employee
 
 """
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.forms import UserChangeForm
-
-class MyUserChangeForm(UserChangeForm):
-    class Meta(UserChangeForm.Meta):
-        model = MyUser
-
-class MyUserAdmin(UserAdmin):
-    form = MyUserChangeForm
-
-    fieldsets = UserAdmin.fieldsets + (
-            (None, {'fields': ('some_extra_data',)}),
-    )
-
-
-admin.site.register(MyUser, MyUserAdmin)
-
 class EmployeeList(admin.ModelAdmin):
-	model = Employee
-	can_delete = False
 	#fields = ('middle_name', 'pesel', 'id_number')
 	
 	class Meta:
@@ -54,8 +35,6 @@ class UserAdmin(UserAdmin):
 	inlines = (EmployeeInline,)
 	
 	list_display = ('username', 'last_name', 'first_name', 'email')
-	
-# working code ends here
 """
 
 class EmployeeListAdminForm(ModelForm):	
@@ -82,6 +61,7 @@ class EmployeeListAdminForm(ModelForm):
 class EmployeeListAdmin(admin.ModelAdmin):
 	form = EmployeeListAdminForm
 	list_display = ('name',)
+	ordering = ('user__last_name', 'user__first_name')
 	
 	def name(self, obj):
 		full_name = "%s %s" % (obj.user.last_name, obj.user.first_name)
@@ -95,6 +75,8 @@ class EmployeeListAdmin(admin.ModelAdmin):
 	
 	def has_add_permission(self, request):
 		return False
+
+
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

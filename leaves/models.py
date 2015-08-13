@@ -7,7 +7,7 @@ from django.db import models
 
 @python_2_unicode_compatible
 class Leave(models.Model):
-	user = models.OneToOneField(User, primary_key=True, parent_link=True, related_name='leave')
+	user = models.OneToOneField(User, primary_key=True, parent_link=True, related_name='leave', verbose_name='Pracownik')
 	available_days = models.IntegerField('dni urlopu', default=26)
 	
 	def first_name(self):
@@ -37,13 +37,14 @@ STATUS_CHOICES = (
 	('a', 'Zaakceptowany'),
 	('r', 'Odrzucony'),
 )
-		
+
+@python_2_unicode_compatible		
 class LeaveRequest(models.Model):
-	leave = models.ForeignKey(Leave)
+	leave = models.ForeignKey(Leave, verbose_name='Pracownik')
 	start_date = models.DateField('poczatek urlopu')
 	end_date = models.DateField('koniec urlopu')
 	days = models.IntegerField('dni urlopu')
-	status = models.CharField('decyzja', max_length=1, choices=STATUS_CHOICES)
+	status = models.CharField('decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
 	
 	def __str__(self):
 		return ("%s %s" % (self.leave.user.last_name, self.leave.user.first_name))

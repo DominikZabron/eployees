@@ -15,8 +15,8 @@ make_approve.short_description = 'Zaakceptuj wybrane wnioski urlopowe'
 	
 def make_disapprove(modeladmin, request, queryset):
 	queryset.update(status='r')
-make_disapprove.short_description = 'Odrzuc wybrane wnioski urlopowe'
-
+make_disapprove.short_description = 'Odrzuć wybrane wnioski urlopowe'
+"""
 class LeaveAdminForm(forms.ModelForm):
 	imie = forms.CharField(max_length=200)
 	nazwisko = forms.CharField(max_length=200)
@@ -29,20 +29,18 @@ class LeaveAdminForm(forms.ModelForm):
 	class Meta:
 		model = Leave
 		fields = ('imie', 'nazwisko', 'available_days',)
-
+"""
 class LeaveAdmin(admin.ModelAdmin):
-	form = LeaveAdminForm
+	#form = LeaveAdminForm
 	list_display = ('last_name', 'first_name', 'available_days')
 	list_display_links = None
 	list_editable = ('available_days',)
-	
-	class Meta:
-		ordering = ('user__last_name', 'user__first_name')
+	ordering = ('user__last_name', 'user__first_name')
 	
 class LeaveRequestAdmin(admin.ModelAdmin):
-	exclude = ('if_approved', 'approved_by')
+	exclude = ('status',)
 	list_display = ('__str__', 'start_date', 'end_date', 'days', 'status')
-	actions = [make_approve, make_disapprove]
+	actions = (make_approve, make_disapprove)
 		
 admin.site.register(Leave, LeaveAdmin)
 admin.site.register(LeaveRequest, LeaveRequestAdmin)

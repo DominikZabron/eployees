@@ -23,8 +23,8 @@ class Migration(migrations.Migration):
                 ('city', models.CharField(max_length=200, verbose_name=b'Miejscowo\xc5\x9b\xc4\x87', blank=True)),
                 ('postcode', models.CharField(max_length=200, verbose_name=b'Kod pocztowy', blank=True)),
                 ('country', models.CharField(default=b'Polska', max_length=200, verbose_name=b'Kraj', blank=True)),
-                ('medical_check_date', models.DateField(verbose_name=b'Data wa\xc5\xbcno\xc5\x9bci badania lekarskiego', blank=True)),
-                ('health_safety_date', models.DateField(verbose_name=b'Data wa\xc5\xbcno\xc5\x9bci szkolenia BHP', blank=True)),
+                ('medical_check_date', models.DateField(null=True, verbose_name=b'Data wa\xc5\xbcno\xc5\x9bci badania lekarskiego', blank=True)),
+                ('health_safety_date', models.DateField(null=True, verbose_name=b'Data wa\xc5\xbcno\xc5\x9bci szkolenia BHP', blank=True)),
             ],
             options={
                 'verbose_name': 'dane pracownika',

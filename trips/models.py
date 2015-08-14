@@ -45,18 +45,23 @@ class BusinessTripItem(models.Model):
 	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
 	
 	def __str__(self):
-		return self.employee.get_full_name() + ' - ' + self.business_trip.__str__()
+		return self.employee.get_full_name()
 		
 	class Meta:
 		verbose_name = 'Wyjazd służbowy'
 		verbose_name_plural = 'Wyjazdy służbowe'
-		
+
+SETTLEMENT_CHOICES = (
+	('w', 'Oczekuje'),
+	('a', 'Rozliczono'),
+	('r', 'Odrzucono'),
+)
 @python_2_unicode_compatible
 class BusinessTripSettlement(models.Model):
 	business_trip = models.ForeignKey(BusinessTrip, verbose_name='Delegacja')
 	costs_all = models.DecimalField('Łączne koszty do rozliczenia', max_digits=9, decimal_places=2)
 	description = models.TextField('Opis', blank=True)
-	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
+	status = models.CharField('Decyzja', max_length=1, choices=SETTLEMENT_CHOICES, default='w')
 	
 	def __str__(self):
 		return self.business_trip.__str__()

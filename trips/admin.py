@@ -17,6 +17,14 @@ def make_disapprove(modeladmin, request, queryset):
 	queryset.update(status='r')
 make_disapprove.short_description = 'Odrzuć wybrane wnioski'
 
+def make_settlement(modeladmin, request, queryset):
+	queryset.update(status='a')
+make_settlement.short_description = 'Dokonano rozliczenia'
+	
+def make_settlement_invalid(modeladmin, request, queryset):
+	queryset.update(status='r')
+make_settlement_invalid.short_description = 'Odrzucono rozliczenie'
+
 @admin.register(BusinessTripItem)
 class BusinessTripItemAdmin(admin.ModelAdmin):
 	list_display = ('__str__', 'business_trip', 'estimated_cost', 'status')
@@ -27,5 +35,5 @@ class BusinessTripItemAdmin(admin.ModelAdmin):
 class BusinessTripSettlementAdmin(admin.ModelAdmin):
 	list_display = ('__str__', 'costs_all', 'status')
 	exclude = ('status',)
-	actions = (make_approve, make_disapprove)
+	actions = (make_settlement, make_settlement_invalid)
 

@@ -8,6 +8,7 @@ from django.db import models
 @python_2_unicode_compatible
 class Employee(models.Model):
 	user = models.OneToOneField(User, parent_link=True, related_name='user')
+	position = models.CharField('Stanowisko', max_length=255, blank=True)
 	middle_name = models.CharField('Drugie imię', max_length=200, blank=True)
 	pesel = models.CharField('Pesel', max_length=11, blank=True)
 	id_number = models.CharField('Nr dowodu', max_length=9, blank=True)

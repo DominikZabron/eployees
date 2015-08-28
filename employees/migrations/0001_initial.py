@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('user', models.OneToOneField(parent_link=True, related_name='user', to=settings.AUTH_USER_MODEL)),
+                ('position', models.CharField(max_length=255, verbose_name=b'Stanowisko', blank=True)),
                 ('middle_name', models.CharField(max_length=200, verbose_name=b'Drugie imi\xc4\x99', blank=True)),
                 ('pesel', models.CharField(max_length=11, verbose_name=b'Pesel', blank=True)),
                 ('id_number', models.CharField(max_length=9, verbose_name=b'Nr dowodu', blank=True)),

@@ -19,9 +19,13 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200, verbose_name=b'Nazwa pojazdu')),
                 ('brand', models.CharField(max_length=200, verbose_name=b'Marka pojazdu')),
                 ('registration_number', models.CharField(max_length=200, verbose_name=b'Numer rejestracyjny')),
-                ('engine_capacity', models.IntegerField(max_length=200, verbose_name=b'Pojemnosc silnika')),
-                ('is_company_owned', models.BooleanField(max_length=200, verbose_name=b'Wlasnosc firmy')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('engine_capacity', models.IntegerField(verbose_name=b'Pojemnosc silnika')),
+                ('is_company_owned', models.BooleanField(verbose_name=b'Wlasnosc firmy')),
+                ('user', models.ForeignKey(verbose_name=b'Pracownik', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
+            options={
+                'verbose_name': 'pojazd',
+                'verbose_name_plural': 'pojazdy',
+            },
         ),
     ]

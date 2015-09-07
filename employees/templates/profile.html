@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	{% if user.is_authenticated %}
+
+			<div id="showcase">
+
+				<div id="avatar"><img src="{{ avatar.url }}" alt="Avatar"> </div>
+
+				<div id="personal_data">
+
+					<p id="name">{{ user.get_full_name }}</p>
+
+					<p>{{ position }}</p>
+
+					<p>{{ street }}, {{ postcode }} {{ city }}</p>
+
+				</div>
+
+			</div>
+
+			<!--
+			<div id="leave">
+
+				<p>Data ważności badania lekarskiego: {{ medical_check_date }}</p>
+
+				<p>Data ważności szkolenia BHP: {{ health_safety_date }}</p>
+
+				<p>Urlopu do wykorzystania: {{ available_days }} dni</p>
+
+			</div>
+			-->
+
+	{% endif %}
+
+	<p>Kliknij <a href="/accounts/loggedin">tutaj</a> , aby powrócić.</p> 
+
+{% endblock %}

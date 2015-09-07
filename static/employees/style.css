@@ -1,0 +1,38 @@
+
+body { 
+	background-color: #ffc;
+	color: #137;
+}
+
+#logo {
+	background-color: #f1f1f1;
+}
+
+#logo img { 
+	display: block;
+	margin: 0 auto;
+	padding: 1em;
+}
+
+#showcase {
+	overflow: auto;
+	width: 100%;
+}
+
+#avatar {
+	float: right;
+	margin: 4em 8em 2em 2em;
+	border: 1px solid black;
+}
+
+#personal_data {
+	float:left;
+	margin: 2em 2em	2em 6em;
+	padding: 2em;
+}
+
+#name {
+	font-size: 200%;
+	margin-bottom: 0;
+}
+

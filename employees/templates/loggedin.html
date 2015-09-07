@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h2>Cześć {{full_name}}, jesteś teraz zalogowany!</h2>
+
+  <p>Kliknij <a href="/admin/">tutaj</a> , aby zalogować się do panelu administracyjnego.</p>
+  
+  <p>Kliknij <a href="/accounts/profile/">tutaj</a> , aby edytować swój profil.</p>
+
+  <p>Kliknij <a href="/accounts/logout/">tutaj</a> , aby się wylogować.</p>
+
+{% endblock %}

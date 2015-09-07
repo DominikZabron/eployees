@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>{% block title %}SESTO Sp. z o.o. | Serwis pracowniczy{% endblock %}</title>
+
+    <meta charset="UTF-8" />
+
+    <link rel="shortcut icon" href="http://sesto.pl/pl/wp-content/themes/toommorel-lite/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'employees/style.css' %}"/>
+    
+</head>
+
+<body>
+	<div id="page">
+
+    <div id="logo">
+        <a href="http://sesto.pl/pl"><img src="http://sesto.pl/pl/wp-content/uploads/2011/12/sesto.png" alt="SESTO Sp. z.o.o." /></a>
+    </div>
+
+    <div id="content">
+        
+        {% block content %}This is the content area{% endblock %}
+	
+	</div>
+		
+</body>
+</html>

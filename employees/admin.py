@@ -52,7 +52,7 @@ class EmployeeListAdminForm(ModelForm):
 	class Meta:
 		model = Employee
 		fields = (
-			'imie', 'middle_name', 'nazwisko',
+			'imie', 'middle_name', 'nazwisko', 'position',
 			'street', 'city', 'postcode', 'country',
 			'pesel', 'id_number', 'email',
 			'medical_check_date', 'health_safety_date'

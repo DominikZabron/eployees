@@ -18,6 +18,7 @@ class Employee(models.Model):
 	country = models.CharField('Kraj', max_length=200, default='Polska', blank=True)
 	medical_check_date = models.DateField('Data ważności badania lekarskiego', blank=True, null=True)
 	health_safety_date = models.DateField('Data ważności szkolenia BHP', blank=True, null=True)
+	avatar = models.FileField(upload_to='avatars', default='/avatars/pawn.jpg')
 		
 	def __str__(self):
 		return self.user.username	

@@ -13,17 +13,32 @@
 </head>
 
 <body>
-	<div id="page">
 
-    <div id="logo">
+    <div id="header">
+
         <a href="http://sesto.pl/pl"><img src="http://sesto.pl/pl/wp-content/uploads/2011/12/sesto.png" alt="SESTO Sp. z.o.o." /></a>
+
+    </div>
+
+    <div id="nav">
+
+        <ul>
+
+            <li><a href="/accounts/profile/">Profil</a></li>
+            <li><a href="/leaves/leaverequest/">Urlopy</a></li>
+            <li><a href="/trips/trip/">Delegacje</a></li>
+            <li><a href="/admin/">Admin</a></li>
+            <li><a href="/accounts/logout/">Wyloguj</a></li>
+
+        </ul>
+
     </div>
 
     <div id="content">
         
         {% block content %}This is the content area{% endblock %}
-	
-	</div>
+
+    </div>
 		
 </body>
 </html>

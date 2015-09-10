@@ -2,16 +2,44 @@
 body { 
 	background-color: #ffc;
 	color: #137;
+	margin: 0px;
+	width: 1000px;
 }
 
-#logo {
+#header {
 	background-color: #f1f1f1;
+	padding: 1em;
 }
 
-#logo img { 
+#header img { 
 	display: block;
-	margin: 0 auto;
+	margin: 0px auto;
+}
+
+#nav {
+	text-align: center;
+	border-bottom: 4px solid #f1f1f1;
+}
+
+#nav li {
+	display: inline;
 	padding: 1em;
+}
+
+#nav a:link {
+	color: #666666;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#nav a:visited {
+	text-decoration: none;
+	color: #666666;
+}
+
+#nav a:hover {
+	color: #FF4400;
 }
 
 #showcase {
@@ -34,5 +62,24 @@ body {
 #name {
 	font-size: 200%;
 	margin-bottom: 0;
+}
+
+.section {
+	overflow: auto;
+	text-align: center;
+	margin: 1%;
+}
+
+.sectionheader {
+	background-color: #f1f1f1; 
+	padding: 0.1em;
+	border-bottom: 1px solid black;
+}
+
+.row {
+	width: 30%;
+	float: left;
+	background-color: #ffff66; 
+	margin: 1%;
 }
 

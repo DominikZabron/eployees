@@ -20,6 +20,26 @@
 
 			</div>
 
+			<div class="section">
+
+				<div class="sectionheader"><p>Urlopy</p></div>
+
+				<div class="row"><p>Dostępne:{{ available_days }}</p></div>
+				<div class="row"><p>Wykorzystane: {{ days_used }}</p></div>
+				<div class="row"><p>Pozostało: {{ days_left }}</p></div>
+				
+			</div>
+
+			<div class="section">
+
+				<div class="sectionheader"><p>Delegacje</p></div>
+
+				<div class="row"><p>Odbyto: {{ trip_count }}</p></div>
+				<div class="row"><p>Rozliczono: {{ settlement_count }}</p></div>
+
+			</div>
+
+
 			<!--
 			<div id="leave">
 
@@ -33,7 +53,5 @@
 			-->
 
 	{% endif %}
-
-	<p>Kliknij <a href="/accounts/loggedin">tutaj</a> , aby powrócić.</p> 
 
 {% endblock %}

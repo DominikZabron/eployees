@@ -32,6 +32,20 @@ class BusinessTripEmployee(models.Model):
 	business_trip = models.ForeignKey(BusinessTrip, verbose_name='Delegacja')
 	estimated_cost = models.DecimalField('Szacunkowy koszt [zł]', max_digits=9, decimal_places=2)
 	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
+
+	def _trip_count(self):
+		t = BusinessTripEmployee.objects.filter(status='a').count()
+		return t
+
+	_trip_count.short_description = 'odbytych delegacji'
+	trip_count = property(_trip_count)
+
+	def _settlement_count(self):
+		s = BusinessTripSettlement.objects.filter(status='a').count()
+		return s
+
+	_settlement_count.short_description = 'rozliczonych delegacji'
+	settlement_count = property(_settlement_count)
 	
 	def __str__(self):
 		return "{1} - {0}".format(self.employee.username, self.business_trip.__str__())

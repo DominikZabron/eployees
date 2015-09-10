@@ -23,7 +23,7 @@ make_disapprove.short_description = 'Odrzuć wybrane wnioski'
 
 @admin.register(BusinessTripEmployee)
 class BusinessTripEmployeeAdmin(admin.ModelAdmin):
-	list_display = ('__str__', 'estimated_cost', 'status')
+	list_display = ('__str__', 'estimated_cost', 'status', 'trip_count', 'settlement_count')
 	exclude = ('status',)
 	actions = (make_approve, make_disapprove)
 

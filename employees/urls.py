@@ -9,5 +9,5 @@ urlpatterns = [
 	url(r'^logout/', views.logout),
 	#url(r'^loggedin/', views.loggedin),
 	url(r'^invalid/', views.invalid_login),
-	url(r'^profile/', views.profile),
+	url(r'^profile/', views.ProfileListView.as_view()),
 ]

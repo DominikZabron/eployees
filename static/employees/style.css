@@ -55,7 +55,7 @@ body {
 
 #personal_data {
 	float:left;
-	margin: 2em 2em	2em 6em;
+	margin: 0em 2em	2em 6em;
 	padding: 2em;
 }
 
@@ -81,5 +81,10 @@ body {
 	float: left;
 	background-color: #ffff66; 
 	margin: 1%;
+}
+
+.section table {
+	width: 100%;
+	background-color: #ffff66;
 }
 

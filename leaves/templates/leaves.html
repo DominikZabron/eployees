@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="section">
+	<div class="header">Urlopy</div>
+	<table>
+	<tr>
+		<td>Od</td>
+		<td>Do</td>
+		<td>Status</td>
+	</tr>
+	{% for leave in object_list %}
+		<tr>
+			<td> {{ leave.start_date }}</td>
+			<td> {{ leave.end_date }}</td>
+			<td> {{ leave.get_status_display }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+	</div>
+
+{% endblock %}

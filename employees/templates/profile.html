@@ -6,15 +6,18 @@
 
 			<div id="showcase">
 
-				<div id="avatar"><img src="{{ avatar.url }}" alt="Avatar"> </div>
+				<div id="avatar"><img src="{{ employee.avatar.url }}" alt="Avatar"> </div>
 
 				<div id="personal_data">
 
 					<p id="name">{{ user.get_full_name }}</p>
-
-					<p>{{ position }}</p>
-
-					<p>{{ street }}, {{ postcode }} {{ city }}</p>
+					<p>{{ employee.position }}</p>
+					<p>{{ user.email }}</p>
+					<p>{{ employee.street }}, {{ employee.postcode }} 
+						{{ employee.city }}</p>
+					<p>Drugie imię: {{ employee.middle_name }}</p>
+					<p>Pesel: {{ employee.pesel }}</p>
+					<p>Nr dowodu: {{ employee.id_number }}</p>
 
 				</div>
 
@@ -24,9 +27,9 @@
 
 				<div class="sectionheader"><p>Urlopy</p></div>
 
-				<div class="row"><p>Dostępne:{{ available_days }}</p></div>
-				<div class="row"><p>Wykorzystane: {{ days_used }}</p></div>
-				<div class="row"><p>Pozostało: {{ days_left }}</p></div>
+				<div class="row"><p>Dostępne:{{ leave.available_days }}</p></div>
+				<div class="row"><p>Wykorzystane: {{ leave.days_used }}</p></div>
+				<div class="row"><p>Pozostało: {{ leave.days_left }}</p></div>
 				
 			</div>
 
@@ -34,23 +37,24 @@
 
 				<div class="sectionheader"><p>Delegacje</p></div>
 
-				<div class="row"><p>Odbyto: {{ trip_count }}</p></div>
-				<div class="row"><p>Rozliczono: {{ settlement_count }}</p></div>
+				<div class="row"><p>Odbyto: {{ trip.trip_count }}</p></div>
+				<div class="row"><p>Rozliczono: {{ trip.settlement_count }}
+					</p></div>
 
 			</div>
 
-
-			<!--
-			<div id="leave">
-
-				<p>Data ważności badania lekarskiego: {{ medical_check_date }}</p>
-
-				<p>Data ważności szkolenia BHP: {{ health_safety_date }}</p>
-
-				<p>Urlopu do wykorzystania: {{ available_days }} dni</p>
-
+			<div class="section">
+				<div class="sectionheader">Uprawnienia</div>
+				<table>
+					{% for qual in object_list %}
+						<tr>
+							<td>{{ qual.qualifications.name }}</td>
+							<td>{{ qual.expiry_date }}</td>
+						</tr>
+					{% endfor %}
+				</table>
 			</div>
-			-->
+
 
 	{% endif %}
 

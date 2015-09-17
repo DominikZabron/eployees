@@ -60,11 +60,11 @@ STATUS_CHOICES = (
 @python_2_unicode_compatible		
 class LeaveRequest(models.Model):
 	leave = models.ForeignKey(Leave, verbose_name='Pracownik')
-	start_date = models.DateField('poczatek urlopu')
+	start_date = models.DateField('początek urlopu')
 	end_date = models.DateField('koniec urlopu')
-	year = models.IntegerField('dotyczy roku kalendarzowego')
 	days = models.IntegerField('dni urlopu')
-	status = models.CharField('decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
+	status = models.CharField('decyzja', max_length=1, choices=STATUS_CHOICES,
+		default='w')
 	
 	def __str__(self):
 		return ("%s %s" % (self.leave.user.last_name, self.leave.user.first_name))

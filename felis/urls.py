@@ -22,5 +22,6 @@ urlpatterns = [
 	url(r'^', include('employees.urls')),
     url(r'^accounts/', include('employees.urls')),
     url(r'^leaves/', include('leaves.urls')),
+    url(r'^trips/', include('trips.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

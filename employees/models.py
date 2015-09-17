@@ -16,7 +16,8 @@ class Employee(models.Model):
 	city = models.CharField('Miejscowość', max_length=200, blank=True)
 	postcode = models.CharField('Kod pocztowy', max_length=200, blank=True)
 	country = models.CharField('Kraj', max_length=200, default='Polska', blank=True)
-	avatar = models.FileField(upload_to='avatars', default='/avatars/pawn.jpg')
+	avatar = models.FileField(upload_to='avatars',
+		default='/media/avatars/pawn.jpg')
 		
 	def __str__(self):
 		return self.user.username	
@@ -49,7 +50,7 @@ class Qualifications(models.Model):
 class QualificationsEmployee(models.Model):
 	employee = models.ForeignKey(Employee, verbose_name='pracownik')
 	qualifications = models.ForeignKey(Qualifications,
-		verbose_name='uprawnienia', unique=True)
+		verbose_name='uprawnienia')
 	expiry_date = models.DateField('wygasają')
 
 	def __str__(self):

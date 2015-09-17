@@ -44,8 +44,13 @@ class ProfileListView(generic.ListView):
 		context = super(ProfileListView, self).get_context_data(**kwargs)
 		context['employee'] = Employee.objects.get(user=self.request.user)
 		context['leave'] = Leave.objects.get(user=self.request.user)
-		context['trip'] = BusinessTripEmployee.objects.get(
-			employee=self.request.user)
+
+		try:
+			context['trip'] = BusinessTripEmployee.objects.get(
+				employee=self.request.user)
+		except:
+			pass
+			
 		context['qualifications'] = Qualifications.objects.all()
 		return context
 

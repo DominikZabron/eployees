@@ -68,6 +68,7 @@ body {
 	overflow: auto;
 	text-align: center;
 	margin: 1%;
+	clear: both;
 }
 
 .sectionheader {
@@ -87,4 +88,10 @@ body {
 	width: 100%;
 	background-color: #ffff66;
 }
+
+.button {
+	float:right;
+	background-color: red;
+}
+
 

@@ -1,23 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+	
+	<div class="button"><a href="/leaves/leaverequest/">Nowy wniosek urlopowy
+		</a></div>
 	<div class="section">
-	<div class="header">Urlopy</div>
-	<table>
-	<tr>
-		<td>Od</td>
-		<td>Do</td>
-		<td>Status</td>
-	</tr>
-	{% for leave in object_list %}
+		<div class="header">Urlopy</div>
+		<table>
 		<tr>
-			<td> {{ leave.start_date }}</td>
-			<td> {{ leave.end_date }}</td>
-			<td> {{ leave.get_status_display }}</td>
+			<td>Pracownik</td>
+			<td>Od</td>
+			<td>Do</td>
+			<td>Dni</td>
+			<td>Status</td>
 		</tr>
-	{% endfor %}
-	</table>
+		{% for leave in object_list %}
+			<tr>
+				<td>{{ leave.leave }}</td>
+				<td>{{ leave.start_date }}</td>
+				<td>{{ leave.end_date }}</td>
+				<td>{{ leave.days }}</td>
+				<td>{{ leave.get_status_display }}</td>
+			</tr>
+		{% endfor %}
+		</table>
 	</div>
 
 {% endblock %}

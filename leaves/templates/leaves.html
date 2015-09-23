@@ -7,22 +7,22 @@
 	<div class="section">
 		<div class="header">Urlopy</div>
 		<table>
-		<tr>
-			<td>Pracownik</td>
-			<td>Od</td>
-			<td>Do</td>
-			<td>Dni</td>
-			<td>Status</td>
-		</tr>
-		{% for leave in object_list %}
 			<tr>
-				<td>{{ leave.leave }}</td>
-				<td>{{ leave.start_date }}</td>
-				<td>{{ leave.end_date }}</td>
-				<td>{{ leave.days }}</td>
-				<td>{{ leave.get_status_display }}</td>
+				<td>Pracownik</td>
+				<td>Od</td>
+				<td>Do</td>
+				<td>Dni</td>
+				<td>Status</td>
 			</tr>
-		{% endfor %}
+				{% for leave in object_list %}
+					<tr>
+						<td>{{ leave.leave }}</td>
+						<td>{{ leave.start_date }}</td>
+						<td>{{ leave.end_date }}</td>
+						<td>{{ leave.days }}</td>
+						<td>{{ leave.get_status_display }}</td>
+					</tr>
+				{% endfor %}
 		</table>
 	</div>
 

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="section">
+		<h2>{{ object.purpose }}</h2>
+		<h4>{{ object.begin_date }}</h4>
+	</div>
+	<div class="button"><a href="/trips/add_employee/{{ object.pk }}/">
+		Dodaj wniosek o delegację</a></div>
+	<div class="section">
+		<div class="header">Uczestnicy</div>
+		<table>
+			<tr>
+				<td>Nazwisko</td>
+				<td>Imię</td>
+				<td>Stanowisko</td>
+				<td>Status</td>
+			</tr>
+			<tr>
+				{% for person in trip_employees %}
+					<tr>
+					<!--
+						<td><a href="/trips/{{ trip.id }}/">{{ trip.purpose }}
+							</a></td>
+					-->
+						<td>{{ person.employee.last_name }}</td>
+						<td>{{ person.employee.first_name }}</td>
+						<td>{{ person.employee.user.position }}</td>
+						<td>{{ person.get_status_display }}</td>
+					</tr>
+				{% endfor %}
+			</tr>
+		</table>
+
+		<p> {{ object.description }}</p>
+		
+	</div>
+
+{% endblock %}

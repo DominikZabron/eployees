@@ -18,6 +18,7 @@ class BusinessTrip(models.Model):
 	class Meta:
 		verbose_name = 'Delegacja'
 		verbose_name_plural = 'Delegacje'
+		ordering = ['-begin_date']
 
 
 STATUS_CHOICES = (
@@ -28,20 +29,22 @@ STATUS_CHOICES = (
 	
 @python_2_unicode_compatible
 class BusinessTripEmployee(models.Model):
-	employee = models.ForeignKey(User, verbose_name='Pracownik')
+	employee = models.ForeignKey(User, verbose_name='Pracownik') #connects with user!
 	business_trip = models.ForeignKey(BusinessTrip, verbose_name='Delegacja')
 	estimated_cost = models.DecimalField('Szacunkowy koszt [zł]', max_digits=9, decimal_places=2)
 	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
 
 	def _trip_count(self):
-		t = BusinessTripEmployee.objects.filter(status='a').count()
+		t = BusinessTripEmployee.objects.filter(status='a',
+			employee=self.employee).count()
 		return t
 
 	_trip_count.short_description = 'odbytych delegacji'
 	trip_count = property(_trip_count)
 
 	def _settlement_count(self):
-		s = BusinessTripSettlement.objects.filter(status='a').count()
+		s = BusinessTripEmployee.objects.filter(
+			settlement__status='a', employee=self.employee).count()
 		return s
 
 	_settlement_count.short_description = 'rozliczonych delegacji'
@@ -53,6 +56,7 @@ class BusinessTripEmployee(models.Model):
 	class Meta:
 		verbose_name = 'Wyjazd służbowy'
 		verbose_name_plural = 'Wyjazdy służbowe'
+		unique_together = ('employee', 'business_trip',)
 
 
 TRANSPORT_TYPE = (
@@ -89,11 +93,13 @@ SETTLEMENT_CHOICES = (
 
 @python_2_unicode_compatible
 class BusinessTripSettlement(models.Model):
-	trip = models.ForeignKey(BusinessTripEmployee, verbose_name='Wyjazd')
-	status = models.CharField('Decyzja', max_length=1, choices=SETTLEMENT_CHOICES, default='w')
+	trip_employee = models.OneToOneField(BusinessTripEmployee,
+		verbose_name='Wyjazd', related_name='settlement')
+	status = models.CharField('Decyzja', max_length=1,
+		choices=SETTLEMENT_CHOICES, default='w')
 	
 	def __str__(self):
-		return self.trip.__str__()
+		return self.trip_employee.__str__()
 		
 	class Meta:
 		verbose_name = 'Rozliczenie'

@@ -1,10 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+	<div class="button"><a href="/trips/add_trip/">Dodaj delegację</a></div>
 	<div class="section">
-	<div class="header">Delegacje</div>
-
+		<div class="header">Delegacje</div>
+		<table>
+			<tr>
+				<td>Nazwa</td>
+				<td>Data</td>
+			</tr>
+			<tr>
+				{% for trip in object_list %}
+					<tr>
+						<td><a href="/trips/{{ trip.id }}/">{{ trip.purpose }}
+							</a></td>
+						<td>{{ trip.begin_date }}</td>
+					</tr>
+				{% endfor %}
+			</tr>
+		</table>
 	</div>
 
 {% endblock %}

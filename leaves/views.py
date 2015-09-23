@@ -16,6 +16,7 @@ class LeavesListView(generic.ListView):
 	def dispatch(self, *args, **kwargs):
 		return super(LeavesListView, self).dispatch(*args, **kwargs)
 
+@login_required
 def leave_request(request):
 
 	if request.method == 'POST':

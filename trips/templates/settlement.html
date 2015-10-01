@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	<div class="section">
+		<h1>Rozliczenie delegacji {{ pk }}</h1>
+		<h3>Status: {{ settlement.get_status_display }}</h3>
+	</div>
+	<div class="section">
+		<div class="button">
+			<a href="/trips/add_route/{{ pk }}/">Dodaj przejazd</a>
+		</div>
+	</div>
+	<div class="section">
+		<div class="header">Trasy</div>
+		<table>
+			<tr>
+				<td>Wyjazd</td>
+				<td>Czas</td>
+				<td>Przyjazd</td>
+				<td>Czas</td>
+				<td>Środek transportu</td>
+			</tr>
+			{% for route in route_list %}
+				<tr>				
+					<td>{{ route.begin }}</td>
+					<td>{{ route.begin_time }}</td>
+					<td>{{ route.end }}</td>
+					<td>{{ route.end_time }}</td>
+					<td>{{ route.get_transportation_display }}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="section">
+		<div class="button">
+			<a href="/trips/add_allowance/{{ pk }}/">Dodaj dobę pobytu</a>
+		</div>
+	</div>
+	<div class="section">
+		<div class="header">Diety</div>
+		<table>
+			<tr>
+				<td>Początek</td>
+				<td>Koniec</td>
+				<td>Ryczałt za dojazdy</td>
+				<td>Ryczałt za noclegi</td>
+				<td>Dieta</td>
+				<td>Razem</td>
+			</tr>
+			{% for allowance in allowance_list %}
+				<tr>				
+					<td>{{ allowance.begin_time }}</td>
+					<td>{{ allowance.end_time }}</td>
+					<td>{{ allowance.commute_lump }}</td>
+					<td>{{ allowance.accomodation_lump }}</td>
+					<td>{{ allowance.allowance }}</td>
+					<td>{{ allowance.total_allowance }}</td>
+				</tr>
+			{% endfor %}			
+		</table>
+	</div>
+	<div class="section">
+		<div class="button">
+			<a href="/trips/add_cost/{{ pk }}/0/">+Pozostały koszt</a>
+		</div>	
+		<div class="button">
+			<a href="/trips/add_cost/{{ pk }}/1/">+Kilometrówka</a>
+		</div>
+		<div class="button">
+			<a href="/trips/add_cost/{{ pk }}/2/">+Koszt noclegu</a>
+		</div>
+		<div class="button">
+			<a href="/trips/add_cost/{{ pk }}/3/">+Koszt przejazdu</a>
+		</div>
+	</div>
+	<div class="section">
+		<div class="header">Koszty</div>
+		<table>
+			<tr>
+				<td>Nazwa</td>
+				<td>Kwota</td>
+			</tr>
+			{% for invoice in invoice_list %}
+				<tr>				
+					<td>{{ invoice.name }}</td>
+					<td>{{ invoice.amount }}</td>
+				</tr>
+			{% endfor %}
+		</table>	
+	</div>
+
+{% endblock %}

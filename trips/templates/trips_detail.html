@@ -6,8 +6,12 @@
 		<h2>{{ object.purpose }}</h2>
 		<h4>{{ object.begin_date }}</h4>
 	</div>
-	<div class="button"><a href="/trips/add_employee/{{ object.pk }}/">
-		Dodaj wniosek o delegację</a></div>
+	<div>
+		<div class="button"><a href="/trips/add_employee/{{ object.pk }}/">
+			Dodaj wniosek o delegację</a></div>
+		<div class="button"><a href="/trips/settlement/{{ object.pk }}/">
+			Rozlicz delegację</a></div>
+	</div>
 	<div class="section">
 		<div class="header">Uczestnicy</div>
 		<table>
@@ -15,6 +19,8 @@
 				<td>Nazwisko</td>
 				<td>Imię</td>
 				<td>Stanowisko</td>
+				<td>Początek</td>
+				<td>Koniec</td>
 				<td>Status</td>
 			</tr>
 			<tr>
@@ -27,6 +33,8 @@
 						<td>{{ person.employee.last_name }}</td>
 						<td>{{ person.employee.first_name }}</td>
 						<td>{{ person.employee.user.position }}</td>
+						<td>{{ person.begin_date|date:"d.m.Y" }}</td>
+						<td>{{ person.end_date|date:"d.m.Y" }}</td>
 						<td>{{ person.get_status_display }}</td>
 					</tr>
 				{% endfor %}

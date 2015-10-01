@@ -1,13 +1,21 @@
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic import edit
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.core.urlresolvers import reverse
 
-from .models import BusinessTrip, BusinessTripEmployee
+from .models import (BusinessTrip, BusinessTripEmployee, BusinessTripSettlement,
+	BusinessTripRoute, BusinessTripAllowance, BusinessTripInvoice, 
+	BusinessTripInvoiceFare, BusinessTripInvoiceAccomodation,
+	BusinessTripInvoiceOther, BusinessTripInvoiceMilage)
 from employees.models import Employee
-from .forms import AddTripForm, AddEmployeeForm
+from .forms import (AddTripForm, AddEmployeeForm, AddRouteForm,
+	AddAllowanceForm, AddFareForm, AddAccomodationForm, AddOtherForm,
+	AddMilageForm)
 
 class TripsListView(generic.ListView):
 	model = BusinessTrip
@@ -63,18 +71,154 @@ def add_employee(request, pk):
 			employee = BusinessTripEmployee(
 				employee = User.objects.get(username=request.user),
 				business_trip = BusinessTrip.objects.get(id=pk),
+				begin_date = cd['begin_date'],
+				end_date = cd['end_date'],
 				estimated_cost = cd['estimated_cost'],
+				description = cd['description'],
 			)
+			settlement = BusinessTripSettlement.objects.create(
+				trip_employee=employee)
 
 			try:
 				employee.save()
-			except:
-				pass
+			except IntegrityError:
+				pass #nicer response for future implementation
+
+			try:
+				settlement.save()
+			except IntegrityError:
+				pass #nicer response for future implementation
 
 			return HttpResponseRedirect('/trips/trip/')
 
 	else:
 		form = AddEmployeeForm()
 
-	return render(request, 'add_employee.html', {'form': form, 'pk':pk })
+	return render(request, 'add_employee.html', {'form': form, 'pk': pk })
+
+class SettlementListView(generic.TemplateView):
+	template_name = 'settlement.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(SettlementListView, self).get_context_data(**kwargs)
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('pk', ''))
+		context['settlement'] = settlement
+		context['route_list'] = BusinessTripRoute.objects.filter(
+			settlement=settlement)
+		context['allowance_list'] = BusinessTripAllowance.objects.filter(
+			settlement=settlement)
+		context['invoice_list'] = BusinessTripInvoice.objects.filter(
+			settlement=settlement)
+		return context
+
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(SettlementListView, self).dispatch(*args, **kwargs)
+
+class AddRouteFormView(edit.FormView):
+	form_class = AddRouteForm
+	template_name = 'add_route.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(AddRouteFormView, self).get_context_data(**kwargs)
+		context['pk'] = self.kwargs.get('pk', '')
+		return context
+
+	def get_success_url(self):
+		return reverse('settlement', kwargs={'pk': self.kwargs.get('pk', '')})
+
+	def form_valid(self, form):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('pk', '')
+		)
+		route = BusinessTripRoute(settlement=settlement,
+			begin=form.cleaned_data['begin'],
+			begin_time=form.cleaned_data['begin_time'],
+			end=form.cleaned_data['end'],
+			end_time=form.cleaned_data['end_time'],
+			transportation=form.cleaned_data['transportation']
+		)
+		route.save()
+		return super(AddRouteFormView, self).form_valid(form)
+
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(AddRouteFormView, self).dispatch(*args, **kwargs)
+
+class AddAllowanceFormView(edit.FormView):
+	form_class = AddAllowanceForm
+	template_name = 'add_allowance.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(AddAllowanceFormView, self).get_context_data(**kwargs)
+		context['pk'] = self.kwargs.get('pk', '')
+		return context
+
+	def get_success_url(self):
+		return reverse('settlement', kwargs={'pk': self.kwargs.get('pk', '')})
+
+	def form_valid(self, form):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('pk', '')
+		)
+		allowance = BusinessTripAllowance(settlement=settlement,
+			begin_time=form.cleaned_data['begin_time'],
+			end_time=form.cleaned_data['end_time'],
+			is_first_day=form.cleaned_data['is_first_day'],
+			is_breakfast=form.cleaned_data['is_breakfast'],
+			is_dinner=form.cleaned_data['is_dinner'],
+			is_supper=form.cleaned_data['is_supper'],
+			is_commute_lump=form.cleaned_data['is_commute_lump'],
+			is_accomodation_lump=form.cleaned_data['is_accomodation_lump'],
+		)
+		allowance.save()
+		return super(AddAllowanceFormView, self).form_valid(form)
+
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(AddAllowanceFormView, self).dispatch(*args, **kwargs)
+
+class AddCostFormView(edit.FormView):
+	template_name = 'add_cost.html'
+
+	def get_form_class(self):
+		if self.kwargs.get('type', '') == '0':
+			return AddOtherForm
+		elif self.kwargs.get('type', '') == '1':
+			return AddMilageForm
+		elif self.kwargs.get('type', '') == '2':
+			return AddAccomodationForm
+		elif self.kwargs.get('type', '') == '3':
+			return AddFareForm
+
+	def get_context_data(self, **kwargs):
+		context = super(AddCostFormView, self).get_context_data(**kwargs)
+		context['pk'] = self.kwargs.get('pk', '')
+		context['type'] = self.kwargs.get('type', '')
+		return context
+
+	def get_success_url(self):
+		return reverse('settlement', kwargs={'pk': self.kwargs.get('pk', '')})
+
+	def form_valid(self, form):
+		data = form.save(commit=False)
+		data.settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('pk', '')
+		)
+		data.save()
+		return super(AddCostFormView, self).form_valid(form)
+
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(AddCostFormView, self).dispatch(*args, **kwargs)
+
+
+
+
+
 

@@ -29,10 +29,16 @@ STATUS_CHOICES = (
 	
 @python_2_unicode_compatible
 class BusinessTripEmployee(models.Model):
-	employee = models.ForeignKey(User, verbose_name='Pracownik') #connects with user!
+	employee = models.ForeignKey(User, verbose_name='Pracownik')
 	business_trip = models.ForeignKey(BusinessTrip, verbose_name='Delegacja')
-	estimated_cost = models.DecimalField('Szacunkowy koszt [zł]', max_digits=9, decimal_places=2)
-	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES, default='w')
+	begin_date = models.DateField('Data początkowa')
+	end_date = models.DateField('Data końcowa')
+	estimated_cost = models.DecimalField('Szacunkowy koszt [zł]',
+		max_digits=9, decimal_places=2)
+	description = models.TextField('Uzasadnienie', blank=True)
+	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES,
+		default='w')
+
 
 	def _trip_count(self):
 		t = BusinessTripEmployee.objects.filter(status='a',
@@ -59,6 +65,28 @@ class BusinessTripEmployee(models.Model):
 		unique_together = ('employee', 'business_trip',)
 
 
+SETTLEMENT_CHOICES = (
+	('i', 'Wprowadzanie'),
+	('w', 'Oczekuje'),
+	('a', 'Rozliczono'),
+	('r', 'Odrzucono'),
+)
+
+@python_2_unicode_compatible
+class BusinessTripSettlement(models.Model):
+	trip_employee = models.OneToOneField(BusinessTripEmployee,
+		verbose_name='Wyjazd', related_name='settlement')
+	status = models.CharField('Decyzja', max_length=1,
+		choices=SETTLEMENT_CHOICES, default='i')
+	
+	def __str__(self):
+		return self.trip_employee.__str__()
+		
+	class Meta:
+		verbose_name = 'Rozliczenie'
+		verbose_name_plural = 'Rozliczenia'
+
+
 TRANSPORT_TYPE = (
 	('c', 'samochód firmowy'),
 	('o', 'samochód prywatny'),
@@ -70,12 +98,14 @@ TRANSPORT_TYPE = (
 
 @python_2_unicode_compatible
 class BusinessTripRoute(models.Model):
-	trip = models.ForeignKey(BusinessTripEmployee, verbose_name='Wyjazd')
+	settlement = models.ForeignKey(BusinessTripSettlement,
+		verbose_name='Rozliczenie')
 	begin = models.CharField('Miejsce początkowe', max_length=255)
 	begin_time = models.DateTimeField('Początek wyjazdu')
 	end = models.CharField('Miejsce docelowe', max_length=255)
 	end_time = models.DateTimeField('Koniec wyjazdu')
-	transportation = models.CharField('Środek transportu', max_length=1, choices=TRANSPORT_TYPE)
+	transportation = models.CharField('Środek transportu', max_length=1,
+		choices=TRANSPORT_TYPE)
 
 	def __str__(self):
 		return u"{0} - {1}".format(self.begin, self.end)
@@ -83,27 +113,6 @@ class BusinessTripRoute(models.Model):
 	class Meta:
 		verbose_name = 'Przejazd'
 		verbose_name_plural = 'Przejazdy'
-
-
-SETTLEMENT_CHOICES = (
-	('w', 'Oczekuje'),
-	('a', 'Rozliczono'),
-	('r', 'Odrzucono'),
-)
-
-@python_2_unicode_compatible
-class BusinessTripSettlement(models.Model):
-	trip_employee = models.OneToOneField(BusinessTripEmployee,
-		verbose_name='Wyjazd', related_name='settlement')
-	status = models.CharField('Decyzja', max_length=1,
-		choices=SETTLEMENT_CHOICES, default='w')
-	
-	def __str__(self):
-		return self.trip_employee.__str__()
-		
-	class Meta:
-		verbose_name = 'Rozliczenie'
-		verbose_name_plural = 'Rozliczenia'
 
 
 BASE_ALLOWANCE = 30
@@ -193,7 +202,7 @@ class BusinessTripAllowance(models.Model):
 @python_2_unicode_compatible
 class BusinessTripInvoice(models.Model):
 	settlement = models.ForeignKey(BusinessTripSettlement,
-		verbose_name="Wyjazd")
+		verbose_name="Rozliczenie")
 	name = models.CharField('Nazwa', max_length=255)
 	amount = models.DecimalField('Kwota', max_digits=9, decimal_places=2,
 		default=0) # Milage needs default or blank to work 
@@ -203,7 +212,8 @@ class BusinessTripInvoice(models.Model):
 		return u"{0} - {1}".format(self.name, self.amount)
 
 	class Meta:
-		abstract = True
+		verbose_name = 'Koszt'
+		verbose_name_plural = 'Koszty'
 
 class BusinessTripInvoiceFare(BusinessTripInvoice):
 	route = models.ForeignKey(BusinessTripRoute, verbose_name='Trasa')

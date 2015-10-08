@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
+from django.db.models.signals import post_save
 from django.db import models
 import datetime
 from assets.models import Car
@@ -39,7 +40,6 @@ class BusinessTripEmployee(models.Model):
 	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES,
 		default='w')
 
-
 	def _trip_count(self):
 		t = BusinessTripEmployee.objects.filter(status='a',
 			employee=self.employee).count()
@@ -63,6 +63,12 @@ class BusinessTripEmployee(models.Model):
 		verbose_name = 'Wyjazd służbowy'
 		verbose_name_plural = 'Wyjazdy służbowe'
 		unique_together = ('employee', 'business_trip',)
+
+def create_settlement(sender, instance, created, **kwargs):
+	if created:
+		BusinessTripSettlement.objects.create(trip_employee=instance)
+
+post_save.connect(create_settlement, sender=BusinessTripEmployee)
 
 
 SETTLEMENT_CHOICES = (

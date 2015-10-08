@@ -4,9 +4,9 @@ from . import views
 
 urlpatterns = [
 	url(r'^trip/', views.TripsListView.as_view()),
-	url(r'^(?P<pk>[0-9]+)/', views.TripsDetailView.as_view()),
+	url(r'^(?P<pk>[0-9]+)/', views.TripsDetailView.as_view(), name='trip'),
 	url(r'^add_trip/', views.add_trip),
-	url(r'^add_employee/(?P<pk>[0-9]+)/', views.add_employee),
+	url(r'^add_employee/(?P<pk>[0-9]+)/', views.AddEmployeeFormView.as_view()),
 	url(r'^settlement/(?P<pk>[0-9]+)/', views.SettlementListView.as_view(),
 		name='settlement'),
 	url(r'^add_route/(?P<pk>[0-9]+)/', views.AddRouteFormView.as_view()),

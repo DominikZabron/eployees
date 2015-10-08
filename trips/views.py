@@ -61,40 +61,30 @@ def add_trip(request):
 
 	return render(request, 'add_trip.html', {'form': form})
 
-def add_employee(request, pk):
+class AddEmployeeFormView(edit.FormView):
+	form_class = AddEmployeeForm
+	template_name = 'add_employee.html'
+	#success_url = '/trips/trip/'
 
-	if request.method == 'POST':
-		form = AddEmployeeForm(request.POST)
+	def get_success_url(self):
+		return reverse('trip', kwargs={'pk': self.kwargs.get('pk', '')})
 
-		if form.is_valid():
-			cd = form.cleaned_data
-			employee = BusinessTripEmployee(
-				employee = User.objects.get(username=request.user),
-				business_trip = BusinessTrip.objects.get(id=pk),
-				begin_date = cd['begin_date'],
-				end_date = cd['end_date'],
-				estimated_cost = cd['estimated_cost'],
-				description = cd['description'],
-			)
-			settlement = BusinessTripSettlement.objects.create(
-				trip_employee=employee)
+	def get_context_data(self, **kwargs):
+		context = super(AddEmployeeFormView, self).get_context_data(**kwargs)
+		context['pk'] = self.kwargs.get('pk', '')
+		return context
 
-			try:
-				employee.save()
-			except IntegrityError:
-				pass #nicer response for future implementation
+	def form_valid(self, form):
+		employee = form.save(commit=False)
+		employee.employee = User.objects.get(username=self.request.user)
+		employee.business_trip = BusinessTrip.objects.get(
+			id=self.kwargs.get('pk', ''))
+		employee.save()
+		return super(AddEmployeeFormView, self).form_valid(form)
 
-			try:
-				settlement.save()
-			except IntegrityError:
-				pass #nicer response for future implementation
-
-			return HttpResponseRedirect('/trips/trip/')
-
-	else:
-		form = AddEmployeeForm()
-
-	return render(request, 'add_employee.html', {'form': form, 'pk': pk })
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(AddEmployeeFormView, self).dispatch(*args, **kwargs)
 
 class SettlementListView(generic.TemplateView):
 	template_name = 'settlement.html'

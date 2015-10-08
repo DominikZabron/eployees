@@ -7,13 +7,15 @@ from django.forms.extras.widgets import SelectDateWidget as sdw
 
 from .models import (BusinessTripRoute, BusinessTripAllowance,
 	BusinessTripInvoiceFare, BusinessTripInvoiceAccomodation,
-	BusinessTripInvoiceOther, BusinessTripInvoiceMilage)
+	BusinessTripInvoiceOther, BusinessTripInvoiceMilage,
+	BusinessTripEmployee)
 
 class AddTripForm(forms.Form):
 	purpose = forms.CharField(label='Cel wyjazdu', max_length=255)
 	begin_date = forms.DateField(label='Rozpoczęcie', widget=sdw)
 	description = forms.CharField(label='Opis', widget=forms.Textarea)
 
+"""
 class AddEmployeeForm(forms.Form):
 	begin_date = forms.DateField(label='Rozpoczęcie', widget=sdw)
 	end_date = forms.DateField(label='Zakończenie', widget=sdw)
@@ -21,11 +23,22 @@ class AddEmployeeForm(forms.Form):
 		decimal_places=2, min_value=0.0)
 	description = forms.CharField(label="Uzasadnienie", widget=forms.Textarea,
 		required=False)
+"""
+
+class AddEmployeeForm(ModelForm):
+	class Meta:
+		model = BusinessTripEmployee
+		exclude = ('employee', 'business_trip', 'status')
 
 class AddRouteForm(ModelForm):
 	class Meta:
 		model = BusinessTripRoute
 		exclude = ('settlement',)
+		widgets = {
+			'begin_date': sdw,
+			'end_date': sdw,
+			'description': forms.Textarea,
+		}
 
 class AddAllowanceForm(ModelForm):
 	class Meta:

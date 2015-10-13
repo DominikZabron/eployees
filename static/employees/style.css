@@ -1,13 +1,13 @@
 
 body { 
-	background-color: #ffc;
+	background-color: #F1F4FF;
 	color: #137;
 	margin: 0px;
 	width: 1000px;
 }
 
 #header {
-	background-color: #f1f1f1;
+	background-color: #595C7C;
 	padding: 1em;
 }
 
@@ -18,7 +18,7 @@ body {
 
 #nav {
 	text-align: center;
-	border-bottom: 4px solid #f1f1f1;
+	border-bottom: 4px solid #F1F4FF;
 }
 
 #nav li {
@@ -27,7 +27,7 @@ body {
 }
 
 #nav a:link {
-	color: #666666;
+	color: #595C7C;
 	text-transform: uppercase;
 	font-weight: bold;
 	text-decoration: none;
@@ -35,7 +35,7 @@ body {
 
 #nav a:visited {
 	text-decoration: none;
-	color: #666666;
+	color: #595C7C;
 }
 
 #nav a:hover {
@@ -79,19 +79,22 @@ body {
 
 .row {
 	width: 30%;
-	float: left;
-	background-color: #ffff66; 
+	float: left; 
+	background-color: #D8DBFB;
 	margin: 1%;
 }
 
 .section table {
 	width: 100%;
-	background-color: #ffff66;
+}
+
+.section th {
+	background-color: #BFC2E2
 }
 
 .button {
 	float:right;
-	background-color: red;
+	background-color: #8C8FAF;
 	margin: 1%;
 }
 

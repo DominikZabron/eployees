@@ -15,11 +15,11 @@
 		<div class="header">Trasy</div>
 		<table>
 			<tr>
-				<td>Wyjazd</td>
-				<td>Czas</td>
-				<td>Przyjazd</td>
-				<td>Czas</td>
-				<td>Środek transportu</td>
+				<th>Wyjazd</th>
+				<th>Czas</th>
+				<th>Przyjazd</th>
+				<th>Czas</th>
+				<th>Środek transportu</th>
 			</tr>
 			{% for route in route_list %}
 				<tr>				
@@ -41,12 +41,12 @@
 		<div class="header">Diety</div>
 		<table>
 			<tr>
-				<td>Początek</td>
-				<td>Koniec</td>
-				<td>Ryczałt za dojazdy</td>
-				<td>Ryczałt za noclegi</td>
-				<td>Dieta</td>
-				<td>Razem</td>
+				<th>Początek</th>
+				<th>Koniec</th>
+				<th>Ryczałt za dojazdy</th>
+				<th>Ryczałt za noclegi</th>
+				<th>Dieta</th>
+				<th>Razem</th>
 			</tr>
 			{% for allowance in allowance_list %}
 				<tr>				
@@ -78,8 +78,8 @@
 		<div class="header">Koszty</div>
 		<table>
 			<tr>
-				<td>Nazwa</td>
-				<td>Kwota</td>
+				<th>Nazwa</th>
+				<th>Kwota</th>
 			</tr>
 			{% for invoice in invoice_list %}
 				<tr>				

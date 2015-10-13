@@ -38,7 +38,7 @@ class BusinessTripEmployee(models.Model):
 		max_digits=9, decimal_places=2)
 	description = models.TextField('Uzasadnienie', blank=True)
 	status = models.CharField('Decyzja', max_length=1, choices=STATUS_CHOICES,
-		default='w')
+		default='w')s
 
 	def _trip_count(self):
 		t = BusinessTripEmployee.objects.filter(status='a',

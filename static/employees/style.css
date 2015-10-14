@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:400|Open+Sans:700,400');
 
 body { 
 	background-color: #F1F4FF;
@@ -9,12 +10,40 @@ body {
 #header {
 	background-color: #595C7C;
 	padding: 1em;
+	font-family: 'Dancing Script', 'Helvetica Neue', Helvetica, Arial;
+	color: #0D1030;
+	font-weight: bold;
+	text-decoration: none;
+	height: 120px;
 }
 
+#header #company a {
+	color: #0D1030;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 36px;
+	float: left;
+	position: inline;
+	margin-left: 50px;
+}
+
+#header #company a:hover {
+	color: #F1F4FF;
+}
+
+#header #motto {
+	float: right;
+	margin-top: 50px;
+	position: inline;
+}
+
+
+/*
 #header img { 
 	display: block;
 	margin: 0px auto;
 }
+*/
 
 #nav {
 	text-align: center;

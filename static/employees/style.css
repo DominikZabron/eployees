@@ -94,8 +94,27 @@ body {
 
 .button {
 	float:right;
-	background-color: #8C8FAF;
 	margin: 1%;
+	padding:0.75%;
+	border-radius: 5px;
+	background-image:
+		linear-gradient(
+			#A6A9C9, #8C8FAF
+		);
+	width: 20%;
+	text-align: center;
 }
 
+.button a {
+	text-transform: uppercase;
+	text-decoration: none;
+	font-weight: bold;
+	color: #F1F4FF;
+}
 
+.button:hover {
+	background-image:
+		linear-gradient(
+			#8C8FAF, #A6A9C9
+		);
+}

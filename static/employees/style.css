@@ -23,7 +23,6 @@ body {
 	text-decoration: none;
 	font-size: 36px;
 	float: left;
-	position: inline;
 	margin-left: 50px;
 }
 
@@ -31,19 +30,26 @@ body {
 	color: #F1F4FF;
 }
 
+#header #company a::after {
+	content: url(/media/arrow.png);
+	position: relative;
+	bottom: 122px;
+	left: 145px;
+}
+
 #header #motto {
 	float: right;
-	margin-top: 50px;
-	position: inline;
+	margin-top: 65px;
+
 }
 
 
-/*
+
 #header img { 
-	display: block;
+	position: inline;
 	margin: 0px auto;
 }
-*/
+
 
 #nav {
 	text-align: center;

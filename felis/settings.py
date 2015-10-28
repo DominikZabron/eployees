@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'datetimewidget',
     'employees',
     'assets',
     'leaves',
@@ -66,6 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    #'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'felis.urls'
@@ -82,6 +84,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'django.core.context_processors.static',
             ],
         },
     },
@@ -99,10 +102,13 @@ TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = False
 
+
+DATETIME_FORMAT = 'Y-m-d H:i'
+DATE_FORMAT = 'Y-m-d'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

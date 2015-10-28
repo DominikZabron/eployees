@@ -5,7 +5,7 @@
 	<form action="/trips/add_route/{{ pk }}/" method="post">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<input type="submit" value="Dodaj" />
+		<input id="submit" type="submit" value="Dodaj" />
 	</form>
 
 {% endblock %}

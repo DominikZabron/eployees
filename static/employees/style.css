@@ -5,16 +5,18 @@ body {
 	color: #137;
 	margin: 0px;
 	width: 1000px;
+	font-family: serif;
 }
 
 #header {
 	background-color: #595C7C;
-	padding: 1em;
 	font-family: 'Dancing Script', 'Helvetica Neue', Helvetica, Arial;
 	color: #0D1030;
 	font-weight: bold;
 	text-decoration: none;
-	height: 120px;
+	height: 130px;
+	margin: 0px;
+	padding: 0px;
 }
 
 #header #company a {
@@ -24,6 +26,8 @@ body {
 	font-size: 36px;
 	float: left;
 	margin-left: 50px;
+	padding: 0px;
+	height: 0px;
 }
 
 #header #company a:hover {
@@ -34,12 +38,12 @@ body {
 	content: url(/media/arrow.png);
 	position: relative;
 	bottom: 122px;
-	left: 145px;
+	left: 170px;
 }
 
 #header #motto {
 	float: right;
-	margin-top: 65px;
+	margin: 65px 10px 0 0;
 
 }
 
@@ -121,6 +125,7 @@ body {
 
 .section table {
 	width: 100%;
+	font-family: sans-serif;
 }
 
 .section th {

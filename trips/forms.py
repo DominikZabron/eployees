@@ -11,7 +11,7 @@ from .models import (BusinessTripRoute, BusinessTripAllowance,
 	BusinessTripEmployee)
 
 dateTimeOptions = {
-		'format': 'yyyy-mm-dd HH:ii',
+		'format': 'yyyy-mm-dd hh:ii',
 		'bootstrap_version': 3,
 		'clearBtn': True,
 		'weekStart': 1,
@@ -54,7 +54,7 @@ class AddRouteForm(ModelForm):
 class AddAllowanceForm(ModelForm):
 	class Meta:
 		model = BusinessTripAllowance
-		exclude = ('settlement',)
+		exclude = ('settlement', 'is_first_day',)
 		widgets = {
 			'begin_time': DateTimeWidget(options=dateTimeOptions),
 			'end_time': DateTimeWidget(options=dateTimeOptions),

@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.core.urlresolvers import reverse
+from datetime import datetime, timedelta
 
 from .models import (BusinessTrip, BusinessTripEmployee, BusinessTripSettlement,
 	BusinessTripRoute, BusinessTripAllowance, BusinessTripInvoice, 
@@ -150,6 +151,7 @@ class AddAllowanceFormView(edit.FormView):
 	def get_success_url(self):
 		return reverse('settlement', kwargs={'pk': self.kwargs.get('pk', '')})
 
+	"""
 	def form_valid(self, form):
 		settlement = BusinessTripSettlement.objects.get(
 			trip_employee__employee=self.request.user,
@@ -158,7 +160,6 @@ class AddAllowanceFormView(edit.FormView):
 		allowance = BusinessTripAllowance(settlement=settlement,
 			begin_time=form.cleaned_data['begin_time'],
 			end_time=form.cleaned_data['end_time'],
-			is_first_day=form.cleaned_data['is_first_day'],
 			is_breakfast=form.cleaned_data['is_breakfast'],
 			is_dinner=form.cleaned_data['is_dinner'],
 			is_supper=form.cleaned_data['is_supper'],
@@ -166,6 +167,80 @@ class AddAllowanceFormView(edit.FormView):
 			is_accomodation_lump=form.cleaned_data['is_accomodation_lump'],
 		)
 		allowance.save()
+		return super(AddAllowanceFormView, self).form_valid(form)
+
+
+	def form_valid(self, form):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('pk', '')
+		)
+
+		time = form.cleaned_data['begin_time']
+		end_time = form.cleaned_data['end_time']
+		is_first_day = True
+
+		while time + timedelta(hours=24) < end_time:
+			data = form.save(commit=False)
+			data.settlement = settlement
+			data.begin_time = time
+			data.end_time = time + timedelta(hours=24)
+			data.is_first_day = is_first_day
+			data.save(force_insert=True)
+			is_first_day = False
+			time = time + timedelta(hours=24)
+
+		data = form.save(commit=False)
+		data.settlement = settlement
+		data.begin_time = time
+		data.end_time = end_time
+		data.is_first_day = is_first_day
+		data.save()
+	"""
+
+	def form_valid(self, form):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('pk', '')
+		)
+
+		s_time = form.cleaned_data['begin_time']
+		e_time = s_time + timedelta(hours=24)
+		end_time = form.cleaned_data['end_time']
+		is_first_day = True
+
+		while e_time < end_time:
+			"""
+			data = form.save(commit=False)
+			data.settlement = settlement
+			data.begin_time = time
+			data.end_time = time + timedelta(hours=24)
+			data.is_first_day = is_first_day
+			data.save(force_insert=True)
+			"""
+			r = BusinessTripAllowance.objects.create(
+				settlement=settlement,
+				begin_time=s_time,
+				end_time=e_time,
+				is_first_day=is_first_day,
+				is_breakfast=form.cleaned_data['is_breakfast'],
+				is_dinner=form.cleaned_data['is_dinner'],
+				is_supper=form.cleaned_data['is_supper'],
+				is_commute_lump=form.cleaned_data['is_commute_lump'],
+				is_accomodation_lump=form.cleaned_data['is_accomodation_lump'],
+			)
+
+			is_first_day = False
+			s_time = e_time 
+			e_time = e_time + timedelta(hours=24)
+
+		data = form.save(commit=False)
+		data.settlement = settlement
+		data.begin_time = s_time
+		data.end_time = end_time
+		data.is_first_day = is_first_day
+		data.save()
+
 		return super(AddAllowanceFormView, self).form_valid(form)
 
 	@method_decorator(login_required)

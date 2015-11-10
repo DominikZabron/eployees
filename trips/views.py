@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from datetime import datetime, timedelta
 
 from .models import (BusinessTrip, BusinessTripEmployee, BusinessTripSettlement,
@@ -139,6 +139,14 @@ class AddRouteFormView(edit.FormView):
 	def dispatch(self, *args, **kwargs):
 		return super(AddRouteFormView, self).dispatch(*args, **kwargs)
 
+class DeleteRouteView(edit.DeleteView):
+	model = BusinessTripRoute
+
+	def get_success_url(self):
+		return reverse_lazy('settlement', kwargs={
+			'pk': self.kwargs.get('rev', '')
+		})
+
 class AddAllowanceFormView(edit.FormView):
 	form_class = AddAllowanceForm
 	template_name = 'add_allowance.html'
@@ -150,53 +158,6 @@ class AddAllowanceFormView(edit.FormView):
 
 	def get_success_url(self):
 		return reverse('settlement', kwargs={'pk': self.kwargs.get('pk', '')})
-
-	"""
-	def form_valid(self, form):
-		settlement = BusinessTripSettlement.objects.get(
-			trip_employee__employee=self.request.user,
-			trip_employee__business_trip=self.kwargs.get('pk', '')
-		)
-		allowance = BusinessTripAllowance(settlement=settlement,
-			begin_time=form.cleaned_data['begin_time'],
-			end_time=form.cleaned_data['end_time'],
-			is_breakfast=form.cleaned_data['is_breakfast'],
-			is_dinner=form.cleaned_data['is_dinner'],
-			is_supper=form.cleaned_data['is_supper'],
-			is_commute_lump=form.cleaned_data['is_commute_lump'],
-			is_accomodation_lump=form.cleaned_data['is_accomodation_lump'],
-		)
-		allowance.save()
-		return super(AddAllowanceFormView, self).form_valid(form)
-
-
-	def form_valid(self, form):
-		settlement = BusinessTripSettlement.objects.get(
-			trip_employee__employee=self.request.user,
-			trip_employee__business_trip=self.kwargs.get('pk', '')
-		)
-
-		time = form.cleaned_data['begin_time']
-		end_time = form.cleaned_data['end_time']
-		is_first_day = True
-
-		while time + timedelta(hours=24) < end_time:
-			data = form.save(commit=False)
-			data.settlement = settlement
-			data.begin_time = time
-			data.end_time = time + timedelta(hours=24)
-			data.is_first_day = is_first_day
-			data.save(force_insert=True)
-			is_first_day = False
-			time = time + timedelta(hours=24)
-
-		data = form.save(commit=False)
-		data.settlement = settlement
-		data.begin_time = time
-		data.end_time = end_time
-		data.is_first_day = is_first_day
-		data.save()
-	"""
 
 	def form_valid(self, form):
 		settlement = BusinessTripSettlement.objects.get(
@@ -247,6 +208,24 @@ class AddAllowanceFormView(edit.FormView):
 	def dispatch(self, *args, **kwargs):
 		return super(AddAllowanceFormView, self).dispatch(*args, **kwargs)
 
+class DeleteAllowanceView(edit.DeleteView):
+	model = BusinessTripAllowance
+
+	def get_success_url(self):
+		return reverse_lazy('settlement', kwargs={
+			'pk': self.kwargs.get('rev', '')
+		})
+
+class UpdateAllowanceView(edit.UpdateView):
+	model = BusinessTripAllowance
+	fields = ['begin_time', 'end_time', 'is_first_day', 'is_breakfast', 
+	'is_dinner', 'is_supper', 'is_commute_lump', 'is_accomodation_lump',]
+
+	def get_success_url(self):
+		return reverse_lazy('settlement', kwargs={
+			'pk': self.kwargs.get('rev', '')
+		})
+
 class AddCostFormView(edit.FormView):
 	template_name = 'add_cost.html'
 
@@ -282,7 +261,13 @@ class AddCostFormView(edit.FormView):
 	def dispatch(self, *args, **kwargs):
 		return super(AddCostFormView, self).dispatch(*args, **kwargs)
 
+class DeleteCostView(edit.DeleteView):
+	model = BusinessTripInvoice
 
+	def get_success_url(self):
+		return reverse_lazy('settlement', kwargs={
+			'pk': self.kwargs.get('rev', '')
+		})
 
 
 

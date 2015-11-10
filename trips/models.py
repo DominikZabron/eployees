@@ -124,6 +124,33 @@ class BusinessTripSettlement(models.Model):
         for entry in settlement_entries:
             total += entry.total_allowance
         return total
+
+    @property
+    def invoice_total(self):
+        settlement_entries = BusinessTripInvoice.objects.filter(
+            settlement=self.pk,
+        )
+        amount = 0
+        for entry in settlement_entries:
+            amount += entry.amount
+        return amount
+
+    @property
+    def settlement_total(self):
+        """
+        settlement_entries = BusinessTripAllowance.objects.filter(
+            settlement=self.pk,
+        )
+        total = 0
+        for entry in settlement_entries:
+            total += entry.total_allowance
+        settlement_entries_2 = BusinessTripInvoice.objects.filter(
+            settlement=self.pk,
+        )
+        for entry in settlement_entries_2:
+            total += entry.amount
+        """
+        return float(self.total_total) + float(self.invoice_total)
     
     def __str__(self):
         return self.trip_employee.__str__()
@@ -244,6 +271,7 @@ class BusinessTripAllowance(models.Model):
     class Meta:
         verbose_name = 'Dieta'
         verbose_name_plural = 'Diety'
+        ordering = ['begin_time',]
 
 
 @python_2_unicode_compatible

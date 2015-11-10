@@ -4,7 +4,8 @@
 	
 	<div class="section">
 		<h1>Rozliczenie delegacji {{ pk }}</h1>
-		<h3>Status: {{ settlement.get_status_display }}</h3>
+		<h4>Kwota do rozliczenia: {{ settlement.settlement_total|floatformat:2 }}</h4>
+		<h4>Status: {{ settlement.get_status_display }}</h4>
 	</div>
 	<div class="section">
 		<div class="button">
@@ -20,6 +21,7 @@
 				<th>Przyjazd</th>
 				<th>Czas</th>
 				<th>Środek transportu</th>
+				<th>Usuń</th>
 			</tr>
 			{% for route in route_list %}
 				<tr>				
@@ -28,6 +30,7 @@
 					<td>{{ route.end }}</td>
 					<td>{{ route.end_time }}</td>
 					<td>{{ route.get_transportation_display }}</td>
+					<td><a href="/trips/delete_route/{{ pk }}/{{ route.id }}">x</a></td>
 				</tr>
 			{% endfor %}
 		</table>
@@ -43,10 +46,12 @@
 			<tr>
 				<th>Początek</th>
 				<th>Koniec</th>
-				<th>Ryczałt za dojazdy</th>
-				<th>Ryczałt za noclegi</th>
+				<th>Ryczałt dojazdy</th>
+				<th>Ryczałt noclegi</th>
 				<th>Dieta</th>
 				<th>Razem</th>
+				<th>Modyfikuj</th>
+				<th>Usuń</th>
 			</tr>
 			{% for allowance in allowance_list %}
 				<tr>				
@@ -56,15 +61,19 @@
 					<td>{{ allowance.accomodation_lump|floatformat:2 }}</td>
 					<td>{{ allowance.allowance|floatformat:2 }}</td>
 					<td>{{ allowance.total_allowance|floatformat:2 }}</td>
+					<td><a href="/trips/update_allowance/{{ pk }}/{{ allowance.id }}">mod</a></td>
+					<td><a href="/trips/delete_allowance/{{ pk }}/{{ allowance.id }}">x</a></td>
 				</tr>
 			{% endfor %}
 			<tr>
-				<th></th>
-				<th></th>
+				<td></td>
+				<td></td>
 				<th>{{ settlement.commute_lump_total|floatformat:2 }}</th>
 				<th>{{ settlement.accomodation_lump_total|floatformat:2 }}</th>
 				<th>{{ settlement.allowance_total|floatformat:2 }}</th>
 				<th>{{ settlement.total_total|floatformat:2 }}</th>
+				<td></td>
+				<td></td>
 			</tr>	
 		</table>
 	</div>
@@ -88,13 +97,20 @@
 			<tr>
 				<th>Nazwa</th>
 				<th>Kwota</th>
+				<th>Usuń</th>
 			</tr>
 			{% for invoice in invoice_list %}
 				<tr>				
 					<td>{{ invoice.name }}</td>
 					<td>{{ invoice.amount }}</td>
+					<td><a href="/trips/delete_cost/{{ pk }}/{{ invoice.id }}">x</a></td>
 				</tr>
 			{% endfor %}
+			<tr>
+				<td></td>
+				<th>{{ settlement.invoice_total|floatformat:2 }}</th>
+				<td></td>
+			</tr>
 		</table>	
 	</div>
 

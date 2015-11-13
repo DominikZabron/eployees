@@ -25,4 +25,5 @@ urlpatterns = [
 	#url(r'^add_other/(?P<pk>[0-9]+)/', views.AddOtherFormView.as_view()),
 	url(r'^delete_cost/(?P<rev>[0-9]+)/(?P<pk>[0-9]+)/',
 		views.DeleteCostView.as_view()),
+	url(r'^send/(?P<pk>[0-9]+)/', views.SendView.as_view()),
 ]

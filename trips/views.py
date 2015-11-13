@@ -125,14 +125,15 @@ class AddRouteFormView(edit.FormView):
 			trip_employee__employee=self.request.user,
 			trip_employee__business_trip=self.kwargs.get('pk', '')
 		)
-		route = BusinessTripRoute(settlement=settlement,
-			begin=form.cleaned_data['begin'],
-			begin_time=form.cleaned_data['begin_time'],
-			end=form.cleaned_data['end'],
-			end_time=form.cleaned_data['end_time'],
-			transportation=form.cleaned_data['transportation']
-		)
-		route.save()
+		if settlement.status == 'i':
+			route = BusinessTripRoute(settlement=settlement,
+				begin=form.cleaned_data['begin'],
+				begin_time=form.cleaned_data['begin_time'],
+				end=form.cleaned_data['end'],
+				end_time=form.cleaned_data['end_time'],
+				transportation=form.cleaned_data['transportation']
+			)
+			route.save()
 		return super(AddRouteFormView, self).form_valid(form)
 
 	@method_decorator(login_required)
@@ -141,6 +142,19 @@ class AddRouteFormView(edit.FormView):
 
 class DeleteRouteView(edit.DeleteView):
 	model = BusinessTripRoute
+
+	def delete(self, request, *args, **kwargs):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('rev', '')
+		)
+		self.object = self.get_object()
+
+		if settlement.status == 'i':
+			self.object.delete()
+
+		return HttpResponseRedirect(self.get_success_url())
+
 
 	def get_success_url(self):
 		return reverse_lazy('settlement', kwargs={
@@ -165,42 +179,36 @@ class AddAllowanceFormView(edit.FormView):
 			trip_employee__business_trip=self.kwargs.get('pk', '')
 		)
 
-		s_time = form.cleaned_data['begin_time']
-		e_time = s_time + timedelta(hours=24)
-		end_time = form.cleaned_data['end_time']
-		is_first_day = True
+		if settlement.status == 'i':
 
-		while e_time < end_time:
-			"""
+			s_time = form.cleaned_data['begin_time']
+			e_time = s_time + timedelta(hours=24)
+			end_time = form.cleaned_data['end_time']
+			is_first_day = True
+
+			while e_time < end_time:
+				r = BusinessTripAllowance.objects.create(
+					settlement=settlement,
+					begin_time=s_time,
+					end_time=e_time,
+					is_first_day=is_first_day,
+					is_breakfast=form.cleaned_data['is_breakfast'],
+					is_dinner=form.cleaned_data['is_dinner'],
+					is_supper=form.cleaned_data['is_supper'],
+					is_commute_lump=form.cleaned_data['is_commute_lump'],
+					is_accomodation_lump=form.cleaned_data['is_accomodation_lump'],
+				)
+
+				is_first_day = False
+				s_time = e_time 
+				e_time = e_time + timedelta(hours=24)
+
 			data = form.save(commit=False)
 			data.settlement = settlement
-			data.begin_time = time
-			data.end_time = time + timedelta(hours=24)
+			data.begin_time = s_time
+			data.end_time = end_time
 			data.is_first_day = is_first_day
-			data.save(force_insert=True)
-			"""
-			r = BusinessTripAllowance.objects.create(
-				settlement=settlement,
-				begin_time=s_time,
-				end_time=e_time,
-				is_first_day=is_first_day,
-				is_breakfast=form.cleaned_data['is_breakfast'],
-				is_dinner=form.cleaned_data['is_dinner'],
-				is_supper=form.cleaned_data['is_supper'],
-				is_commute_lump=form.cleaned_data['is_commute_lump'],
-				is_accomodation_lump=form.cleaned_data['is_accomodation_lump'],
-			)
-
-			is_first_day = False
-			s_time = e_time 
-			e_time = e_time + timedelta(hours=24)
-
-		data = form.save(commit=False)
-		data.settlement = settlement
-		data.begin_time = s_time
-		data.end_time = end_time
-		data.is_first_day = is_first_day
-		data.save()
+			data.save()
 
 		return super(AddAllowanceFormView, self).form_valid(form)
 
@@ -211,6 +219,18 @@ class AddAllowanceFormView(edit.FormView):
 class DeleteAllowanceView(edit.DeleteView):
 	model = BusinessTripAllowance
 
+	def delete(self, request, *args, **kwargs):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('rev', '')
+		)
+		self.object = self.get_object()
+
+		if settlement.status == 'i':
+			self.object.delete()
+
+		return HttpResponseRedirect(self.get_success_url())
+
 	def get_success_url(self):
 		return reverse_lazy('settlement', kwargs={
 			'pk': self.kwargs.get('rev', '')
@@ -219,7 +239,20 @@ class DeleteAllowanceView(edit.DeleteView):
 class UpdateAllowanceView(edit.UpdateView):
 	model = BusinessTripAllowance
 	fields = ['begin_time', 'end_time', 'is_first_day', 'is_breakfast', 
-	'is_dinner', 'is_supper', 'is_commute_lump', 'is_accomodation_lump',]
+		'is_dinner', 'is_supper', 'is_commute_lump', 'is_accomodation_lump',]
+
+	def form_valid(self, form):
+
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('rev', ''),
+		)
+
+		if settlement.status == 'i':
+			self.object = form.save()
+
+		#return super(UpdateAllowanceView, self).form_valid(form)
+		return HttpResponseRedirect(self.get_success_url())
 
 	def get_success_url(self):
 		return reverse_lazy('settlement', kwargs={
@@ -254,7 +287,8 @@ class AddCostFormView(edit.FormView):
 			trip_employee__employee=self.request.user,
 			trip_employee__business_trip=self.kwargs.get('pk', '')
 		)
-		data.save()
+		if data.settlement.status == 'i':
+			data.save()
 		return super(AddCostFormView, self).form_valid(form)
 
 	@method_decorator(login_required)
@@ -264,11 +298,41 @@ class AddCostFormView(edit.FormView):
 class DeleteCostView(edit.DeleteView):
 	model = BusinessTripInvoice
 
+	def delete(self, request, *args, **kwargs):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('rev', '')
+		)
+		self.object = self.get_object()
+
+		if settlement.status == 'i':
+			self.object.delete()
+
+		return HttpResponseRedirect(self.get_success_url())
+		
 	def get_success_url(self):
 		return reverse_lazy('settlement', kwargs={
 			'pk': self.kwargs.get('rev', '')
 		})
 
+class SendView(generic.RedirectView):
+	permanent = False
+
+	def get_redirect_url(self, *args, **kwargs):
+		return reverse_lazy('settlement', kwargs={
+			'pk': self.kwargs.get('pk', '')
+		})
+
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		settlement = BusinessTripSettlement.objects.get(
+			trip_employee__employee=self.request.user,
+			trip_employee__business_trip=self.kwargs.get('pk', '')
+		)
+		if settlement.status == 'i':
+			settlement.status = 'w'
+			settlement.save()
+		return super(SendView, self).dispatch(*args, **kwargs) 
 
 
 

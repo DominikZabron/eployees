@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'assets',
     'leaves',
     'trips',
+    'crispy_forms',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -125,3 +126,5 @@ MEDIA_URL = '/media/'
 
 #SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 #SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

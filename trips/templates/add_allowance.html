@@ -1,11 +1,14 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-	<form action="/trips/add_allowance/{{ pk }}/" method="post">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="Dodaj" />
-	</form>
+	<div class="col-md-5 col-md-offset-4">
+		<form action="/trips/add_allowance/{{ pk }}/" method="post">
+			{% csrf_token %}
+			{{ form|crispy }}
+			<input class="btn btn-primary" type="submit" value="Dodaj" />
+		</form>
+	</div>
 
 {% endblock %}

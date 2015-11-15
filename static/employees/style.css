@@ -3,7 +3,7 @@
 body { 
 	background-color: #F1F4FF;
 	color: #137;
-	margin: 0px;
+	margin: 10px;
 	width: 1000px;
 	font-family: serif;
 }
@@ -41,10 +41,7 @@ body {
 #header #motto {
 	float: right;
 	margin: 65px 10px 0 0;
-
 }
-
-
 
 #header img { 
 	position: inline;
@@ -53,8 +50,9 @@ body {
 
 
 #nav {
-	text-align: center;
 	border-bottom: 4px solid #F1F4FF;
+	margin: 10px 0 0 0;
+	text-align: center;
 }
 
 #nav li {
@@ -64,6 +62,7 @@ body {
 
 #nav a:link {
 	color: #595C7C;
+	font-size: 15px;
 	text-transform: uppercase;
 	font-weight: bold;
 	text-decoration: none;
@@ -103,8 +102,16 @@ body {
 .section {
 	overflow: auto;
 	text-align: center;
-	margin: 1%;
+	margin: 0;
 	clear: both;
+}
+
+h1 {
+	margin-bottom: 30px;
+}
+
+h4 {
+	text-align: left;
 }
 
 .sectionheader {
@@ -123,15 +130,28 @@ body {
 .section table {
 	width: 100%;
 	font-family: sans-serif;
+	line-height: 24px;
+	text-align: right;
 }
 
 .section th {
-	background-color: #BFC2E2
+	background-color: #BFC2E2;
+	text-align: right;
+}
+
+.header {
+	text-align: left;
+	font-style: italic;
+	font-size: 14px;
+	border-bottom: 1px solid #BFC2E2;;
+	display: block;
+	margin-bottom: 3px;
+	font-family: sans-serif;
 }
 
 .button {
 	float:right;
-	margin: 40px 10px 10px 10px;
+	margin: 30px 10px 10px 10px;
 	padding:0.75%;
 	border-radius: 5px;
 	background-image:

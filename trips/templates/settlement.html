@@ -30,7 +30,7 @@
 					<td>{{ route.end }}</td>
 					<td>{{ route.end_time }}</td>
 					<td>{{ route.get_transportation_display }}</td>
-					<td><a href="/trips/delete_route/{{ pk }}/{{ route.id }}">x</a></td>
+					<td><a href="/trips/delete_route/{{ pk }}/{{ route.id }}"><img src="{{ STATIC_URL }}/images/document_delete.png" alt="x" height="18" width="18"></a></td>
 				</tr>
 			{% endfor %}
 		</table>
@@ -61,8 +61,8 @@
 					<td>{{ allowance.accomodation_lump|floatformat:2 }}</td>
 					<td>{{ allowance.allowance|floatformat:2 }}</td>
 					<td>{{ allowance.total_allowance|floatformat:2 }}</td>
-					<td><a href="/trips/update_allowance/{{ pk }}/{{ allowance.id }}">mod</a></td>
-					<td><a href="/trips/delete_allowance/{{ pk }}/{{ allowance.id }}">x</a></td>
+					<td><a href="/trips/update_allowance/{{ pk }}/{{ allowance.id }}"><img src="{{ STATIC_URL }}/images/document_edit.png" alt="mod" height="18" width="18"></a></td>
+					<td><a href="/trips/delete_allowance/{{ pk }}/{{ allowance.id }}"><img src="{{ STATIC_URL }}/images/document_delete.png" alt="x" height="18" width="18"></a></td>
 				</tr>
 			{% endfor %}
 			<tr>
@@ -103,7 +103,7 @@
 				<tr>				
 					<td>{{ invoice.name }}</td>
 					<td>{{ invoice.amount }}</td>
-					<td><a href="/trips/delete_cost/{{ pk }}/{{ invoice.id }}">x</a></td>
+					<td><a href="/trips/delete_cost/{{ pk }}/{{ invoice.id }}"><img src="{{ STATIC_URL }}/images/document_delete.png" alt="x" height="18" width="18"></a></td>
 				</tr>
 			{% endfor %}
 			<tr>

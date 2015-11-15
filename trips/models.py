@@ -290,8 +290,12 @@ class BusinessTripInvoice(models.Model):
         verbose_name = 'Koszt'
         verbose_name_plural = 'Koszty'
 
+def file_name(instance, filename):
+    return '/'.join(['content', instance.user.id, filename])
+
 class BusinessTripInvoiceFare(BusinessTripInvoice):
     route = models.ForeignKey(BusinessTripRoute, verbose_name='Trasa')
+    scan = models.ImageField(upload_to='content/%Y/%m/%d')
 
     class Meta:
         verbose_name = 'Koszt podróży'
@@ -299,13 +303,14 @@ class BusinessTripInvoiceFare(BusinessTripInvoice):
 
 class BusinessTripInvoiceAccomodation(BusinessTripInvoice):
     overnight = models.ForeignKey(BusinessTripAllowance, verbose_name='Nocleg')
+    scan = models.ImageField(upload_to='content/%Y/%m/%d')
 
     class Meta:
         verbose_name = 'Koszt noclegu'
         verbose_name_plural = 'Koszty noclegu'
 
 class BusinessTripInvoiceOther(BusinessTripInvoice):
-    pass
+    scan = models.ImageField(upload_to='content/%Y/%m/%d')
 
     class Meta:
         verbose_name = 'Inny'

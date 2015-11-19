@@ -1,7 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-	
+	<div class="container-fluid">
+		<a class="btn btn-primary pull-right" href="/leaves/leaverequest/">Dodaj</a>
+	</div>
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">Wnioski urlopowe</div>
+      <table class="table table-condensed table-hover">
+        <tr>
+          <th>Pracownik</th>
+          <th>Od</th>
+          <th>Do</th>
+          <th>Dni</th>
+          <th>Status</th>
+        </tr>
+        {% for leave in object_list %}
+          <tr>
+            <td>{{ leave.leave }}</td>
+            <td>{{ leave.start_date }}</td>
+            <td>{{ leave.end_date }}</td>
+            <td>{{ leave.days }}</td>
+            <td>{{ leave.get_status_display }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div> <!-- /.container-fluid -->
+	<!--
 	<div class="button"><a href="/leaves/leaverequest/">Nowy wniosek</a></div>
 	<div class="section">
 		<div class="header">Urlopy</div>
@@ -24,5 +50,6 @@
 				{% endfor %}
 		</table>
 	</div>
+	-->
 
 {% endblock %}

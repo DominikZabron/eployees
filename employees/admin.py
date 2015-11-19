@@ -25,7 +25,7 @@ class EmployeeListAdminForm(ModelForm):
 		fields = (
 			'imie', 'middle_name', 'nazwisko', 'position',
 			'street', 'city', 'postcode', 'country',
-			'pesel', 'id_number', 'email',
+			'pesel', 'id_number', 'email', 'avatar',
 		)
 
 

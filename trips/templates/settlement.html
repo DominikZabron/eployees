@@ -1,7 +1,140 @@
 {% extends "base.html" %}
 
 {% block content %}
-	
+  <div class="container-fluid">
+    <div class="col-md-9">
+      <div class="container-fluid">
+        <div class="panel panel-default">
+          <div class="panel-heading" id="headingOne">
+            <a role="button" data-toggle="collapse" class="btn btn-default" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><h5><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Trasy</h5></a>
+            <a class="btn btn-primary pull-right" href="/trips/add_route/{{ pk }}/">Dodaj</a>
+          </div>
+          <div class="collapse in" id="collapseOne">
+            <table class="table table-condensed table-hover">
+              <tr>
+                <th>Wyjazd</th>
+                <th>Czas</th>
+                <th>Przyjazd</th>
+                <th>Czas</th>
+                <th>Środek transportu</th>
+                <th>Usuń</th>
+              </tr>
+              {% for route in route_list %}
+                <tr>        
+                  <td>{{ route.begin }}</td>
+                  <td>{{ route.begin_time }}</td>
+                  <td>{{ route.end }}</td>
+                  <td>{{ route.end_time }}</td>
+                  <td>{{ route.get_transportation_display }}</td>
+                  <td>
+                    <!--
+                    <button class="btn btn-default" aria-label="remove">
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    -->
+                    <a href="/trips/delete_route/{{ pk }}/{{ route.id }}"><img src="{{ STATIC_URL }}/images/document_delete.png" alt="x" height="18" width="18"></a></td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div> <!-- /.div.collapseOne -->
+        </div> <!-- /.panel -->
+      </div> <!-- /.container-fluid -->
+      <div class="container-fluid">
+        <div class="panel panel-default">
+          <div class="panel-heading" id="headingTwo">
+            <a role="button" data-toggle="collapse" class="btn btn-default" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><h5><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Diety</h5></a>
+            <a class="btn btn-primary pull-right" href="/trips/add_allowance/{{ pk }}/">Dodaj</a>
+          </div>
+          <div class="collapse in" id="collapseTwo">
+            <table class="table table-condensed table-hover">
+              <tr>
+                <th>Początek</th>
+                <th>Koniec</th>
+                <th>Ryczałt dojazdy</th>
+                <th>Ryczałt noclegi</th>
+                <th>Dieta</th>
+                <th>Razem</th>
+                <th>Modyfikuj</th>
+                <th>Usuń</th>
+              </tr>
+              {% for allowance in allowance_list %}
+              <tr>        
+                <td>{{ allowance.begin_time }}</td>
+                <td>{{ allowance.end_time }}</td>
+                <td>{{ allowance.commute_lump|floatformat:2 }}</td>
+                <td>{{ allowance.accomodation_lump|floatformat:2 }}</td>
+                <td>{{ allowance.allowance|floatformat:2 }}</td>
+                <td>{{ allowance.total_allowance|floatformat:2 }}</td>
+                <td><a href="/trips/update_allowance/{{ pk }}/{{ allowance.id }}"><img src="{{ STATIC_URL }}/images/document_edit.png" alt="mod" height="18" width="18"></a></td>
+                <td><a href="/trips/delete_allowance/{{ pk }}/{{ allowance.id }}"><img src="{{ STATIC_URL }}/images/document_delete.png" alt="x" height="18" width="18"></a></td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td></td>
+                <td></td>
+                <th>{{ settlement.commute_lump_total|floatformat:2 }}</th>
+                <th>{{ settlement.accomodation_lump_total|floatformat:2 }}</th>
+                <th>{{ settlement.allowance_total|floatformat:2 }}</th>
+                <th>{{ settlement.total_total|floatformat:2 }}</th>
+                <td></td>
+                <td></td>
+             </tr> 
+            </table>
+          </div>
+        </div>
+      </div> <!-- /.container-fluid -->
+      <div class="container-fluid">
+        <div class="panel panel-default">
+          <div class="panel-heading" id="headingThree">
+            <a role="button" data-toggle="collapse" class="btn btn-default" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><h5><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Koszty</h5></a>
+            <!-- Single button -->
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dodaj <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="/trips/add_cost/{{ pk }}/3/">Dodaj przejazd</a></li>
+                <li><a href="/trips/add_cost/{{ pk }}/2/">Dodaj nocleg</a></li>
+                <li><a href="/trips/add_cost/{{ pk }}/1/">Dodaj kilometrówkę</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/trips/add_cost/{{ pk }}/0/">Pozostały koszt</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="collapse in" id="collapseThree">
+            <table class="table table-condensed table-hover">
+              <tr>
+                <th>Nazwa</th>
+                <th>Kwota</th>
+                <th>Usuń</th>
+              </tr>
+              {% for invoice in invoice_list %}
+                <tr>        
+                  <td>{{ invoice.name }}</td>
+                  <td>{{ invoice.amount }}</td>
+                  <td><a href="/trips/delete_cost/{{ pk }}/{{ invoice.id }}"><img src="{{ STATIC_URL }}/images/document_delete.png" alt="x" height="18" width="18"></a></td>
+                </tr>
+              {% endfor %}
+              <tr>
+                <td></td>
+                <th>{{ settlement.invoice_total|floatformat:2 }}</th>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div> <!-- /.container-fluid -->
+    </div> <!-- /.col-md-9 -->
+    <div class="col-md-3 text-info">
+      <div class="jumbotron" data-spy="affix">
+        <h3>Rozliczenie nr: {{ pk }}</h3>
+        <h4>Kwota: {{ settlement.settlement_total|floatformat:2 }}</br>
+        Status: {{ settlement.get_status_display}}</h4>
+      </div>
+    </div> <!-- /.col-md-3 -->
+  </div> <!-- /.container-fluid -->
+
+	<!--
 	<div class="section">
 		<h1>Rozliczenie delegacji nr {{ pk }}</h1>
 		<h4>Kwota do rozliczenia: {{ settlement.settlement_total|floatformat:2 }}</h4>
@@ -118,5 +251,6 @@
 			<a href="/trips/send/{{ pk }}/">Wyślij</a>
 		</div>
 	</div>
+	-->
 
 {% endblock %}

@@ -1,6 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+  <div class="container-fluid">
+    <a class="btn btn-primary pull-right" href="/trips/add_trip/">Dodaj</a>
+    <br><br>
+    <table class="table table-condensed table-hover">
+      <tr>
+        <th>Delegacja</th>
+        <th>Data</th>
+      </tr>
+      <tr>
+        {% for trip in object_list %}
+          <tr>
+            <td><a class="btn btn-default btn-block" href="/trips/{{ trip.id }}/">{{ trip.purpose }}
+              </a></td>
+            <td>{{ trip.begin_date }}</td>
+          </tr>
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+	<!--
 	<div class="button"><a href="/trips/add_trip/">Dodaj delegację</a></div>
 	<div class="section">
 		<div class="header">Delegacje</div>
@@ -20,5 +41,6 @@
 			</tr>
 		</table>
 	</div>
+  -->
 
 {% endblock %}

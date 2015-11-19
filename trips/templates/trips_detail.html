@@ -2,6 +2,46 @@
 
 {% block content %}
 
+  <div class="container-fluid">
+    <h2>{{ object.purpose }}</h2>
+    <h4>{{ object.begin_date }}</h4>
+    <a class="btn btn-primary pull-right" href="/trips/add_employee/{{ object.pk }}/">Dołącz</a>
+    <a class="btn btn-primary pull-right" href="/trips/settlement/{{ object.pk }}/">Rozlicz</a>
+  </div>
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><strong>Uczestnicy</strong></div>
+      <div class="panel-body"><p>{{ object.description }}</p></div>
+      <!-- Table -->
+      <table class="table table-hover">
+        <tr>
+          <th>Nazwisko</th>
+          <th>Imię</th>
+          <th>Stanowisko</th>
+          <th>Początek</th>
+          <th>Koniec</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          {% for person in trip_employees %}
+            <tr>
+            <!--
+              <td><a href="/trips/{{ trip.id }}/">{{ trip.purpose }}
+                </a></td>
+            -->
+              <td>{{ person.employee.last_name }}</td>
+              <td>{{ person.employee.first_name }}</td>
+              <td>{{ person.employee.user.position }}</td>
+              <td>{{ person.begin_date|date:"d.m.Y" }}</td>
+              <td>{{ person.end_date|date:"d.m.Y" }}</td>
+              <td>{{ person.get_status_display }}</td>
+            </tr>
+          {% endfor %}
+        </tr>
+      </table>
+  </div>
+  <!--
 	<div class="section">
 		<h2>{{ object.purpose }}</h2>
 		<h4>{{ object.begin_date }}</h4>
@@ -26,10 +66,12 @@
 			<tr>
 				{% for person in trip_employees %}
 					<tr>
+          -->
 					<!--
 						<td><a href="/trips/{{ trip.id }}/">{{ trip.purpose }}
 							</a></td>
 					-->
+          <!--
 						<td>{{ person.employee.last_name }}</td>
 						<td>{{ person.employee.first_name }}</td>
 						<td>{{ person.employee.user.position }}</td>
@@ -44,5 +86,6 @@
 		<p> {{ object.description }}</p>
 		
 	</div>
+  -->
 
 {% endblock %}

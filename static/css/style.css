@@ -1,0 +1,13 @@
+
+.container-fluid {
+	margin-left: 40px;
+}
+
+a.navbar-brand {
+	padding: 0;
+	margin-right: 40px;
+}
+
+.btn {
+	margin: 3px;
+}

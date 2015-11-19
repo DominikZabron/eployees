@@ -18,15 +18,18 @@ def login(request):
     return render_to_response('login.html', c)
     
 def auth_view(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    user = auth.authenticate(username=username, password=password)
-    
-    if user is not None:
-        auth.login(request, user)
+    if request.user.is_authenticated():
         return HttpResponseRedirect('/accounts/profile')
     else:
-        return HttpResponseRedirect('/accounts/invalid')
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(username=username, password=password)
+        
+        if user is not None:
+            auth.login(request, user)
+            return HttpResponseRedirect('/accounts/profile')
+        else:
+            return HttpResponseRedirect('/accounts/invalid')
 
 
 def invalid_login(request):

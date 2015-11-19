@@ -240,6 +240,7 @@ class UpdateAllowanceView(edit.UpdateView):
 	model = BusinessTripAllowance
 	fields = ['begin_time', 'end_time', 'is_first_day', 'is_breakfast', 
 		'is_dinner', 'is_supper', 'is_commute_lump', 'is_accomodation_lump',]
+	template_name = 'add_allowance.html'
 
 	def form_valid(self, form):
 

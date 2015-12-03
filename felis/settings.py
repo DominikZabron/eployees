@@ -51,12 +51,18 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'datetimewidget',
     'employees',
     'assets',
     'leaves',
     'trips',
     'crispy_forms',
+    'pagination',
+    'postman',
+    'ajax_select',
+    'notification',
+    'mailer',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -68,6 +74,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'pagination.middleware.PaginationMiddleware',
     #'django.middleware.locale.LocaleMiddleware',
 )
 
@@ -86,6 +93,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'django.core.context_processors.static',
+                'postman.context_processors.inbox',
             ],
         },
     },
@@ -128,3 +136,22 @@ MEDIA_URL = '/media/'
 #SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+# POSTMAN SETTINGS
+
+POSTMAN_DISALLOW_ANONYMOUS = True
+POSTMAN_AUTO_MODERATE_AS = True
+
+AJAX_LOOKUP_CHANNELS = {
+    'user': dict(model='auth.user', search_field='username'),
+}
+POSTMAN_AUTOCOMPLETER_APP = {
+    'name': 'ajax_select',
+    'field': 'AutoCompleteField',
+    'arg_name': 'channel',
+    'arg_default': 'user',
+}
+
+EMAIL_BACKEND = "mailer.backend.DbBackend"
+
+SITE_ID = 1

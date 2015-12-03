@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load postman_tags %}
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -48,6 +50,18 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/admin/">Admin</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="/messages/"><span class="glyphicon glyphicon-comment"></span> Wiadomości <span class="badge">{% postman_unread %}</span> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/messages/inbox/">Odebrane</a></li>
+                <li><a href="/messages/sent/">Wysłane</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/messages/write/">Utwórz</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/messages/archives/">Archiwum</a></li>
+                <li><a href="/messages/trash/">Kosz</a></li>
+              </ul>
+            </li>
             <li><a href="{% url 'logout' %}">Wyloguj</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->

@@ -137,19 +137,6 @@ class BusinessTripSettlement(models.Model):
 
     @property
     def settlement_total(self):
-        """
-        settlement_entries = BusinessTripAllowance.objects.filter(
-            settlement=self.pk,
-        )
-        total = 0
-        for entry in settlement_entries:
-            total += entry.total_allowance
-        settlement_entries_2 = BusinessTripInvoice.objects.filter(
-            settlement=self.pk,
-        )
-        for entry in settlement_entries_2:
-            total += entry.amount
-        """
         return float(self.total_total) + float(self.invoice_total)
     
     def __str__(self):
@@ -218,6 +205,10 @@ class BusinessTripAllowance(models.Model):
     accomodation_lump = property(_accomodation_lump)
 
     def _board_quote(self):
+        """
+        Oblicza procentową należność z tytułu delegacji w zależności od
+        dostępnych posiłków.
+        """
         quote = 1
 
         if self.is_breakfast:
@@ -230,6 +221,18 @@ class BusinessTripAllowance(models.Model):
         return quote
 
     def _duration_quote(self):
+        """
+        Oblicza należność z tytułu delegacji w zależności od czasu jej trwania.
+
+        Dla pierwszego dnia delegacji: 
+        - do 8 godzin - 0%
+        - powyżej 8 godzin, do 12 godzin - 50%
+        - powyżej 12 godzin - 100%
+
+        Dla kolejnych dni:
+        - do 8 godzin - 50%
+        - powyżej 8 godzin - 100%
+        """
 
         try:
             duration = abs(self.end_time - self.begin_time).total_seconds() / 3600

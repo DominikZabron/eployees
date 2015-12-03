@@ -27,6 +27,24 @@
       </table>
     </div>
   </div> <!-- /.container-fluid -->
+  <div class="container-fluid">
+    {% if is_paginated %}
+      <nav>
+        <ul class="pager">
+          {% if page_obj.has_previous %}
+            <li class="previous"><a href="?page={{ page_obj.previous_page_number }}"><span aria-hidden="true">&larr;</span> Nowsze</a></li>
+          {% else %}
+            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Nowsze</a></li>
+          {% endif %}
+          {% if page_obj.has_next %}
+            <li class="next"><a href="?page={{ page_obj.next_page_number }}">Starsze <span aria-hidden="true">&rarr;</span></a></li>
+          {% else %}
+            <li class="next disabled"><a href="#">Starsze <span aria-hidden="true">&rarr;</span></a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+  </div>
 	<!--
 	<div class="button"><a href="/leaves/leaverequest/">Nowy wniosek</a></div>
 	<div class="section">

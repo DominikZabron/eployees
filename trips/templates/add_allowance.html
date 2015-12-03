@@ -4,7 +4,7 @@
 {% block content %}
 
 	<div class="col-md-4 col-md-offset-4">
-		<form action="/trips/add_allowance/{{ pk }}/" method="post">
+		<form action="" method="post">
 			{% csrf_token %}
 			{{ form|crispy }}
 			<input class="btn btn-primary" type="submit" value="Dodaj" />

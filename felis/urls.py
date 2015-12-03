@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from ajax_select import urls as ajax_select_urls
 
 urlpatterns = [
 	url(r'^', include('employees.urls')),
@@ -24,4 +25,7 @@ urlpatterns = [
     url(r'^leaves/', include('leaves.urls')),
     url(r'^trips/', include('trips.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^messages/', include('postman.urls', namespace="postman",
+        app_name="postman")),
+    url(r'^autocomplete/', include(ajax_select_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

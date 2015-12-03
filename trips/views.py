@@ -260,6 +260,7 @@ class UpdateAllowanceView(edit.UpdateView):
 			'pk': self.kwargs.get('rev', '')
 		})
 
+
 class AddCostFormView(edit.FormView):
 	template_name = 'add_cost.html'
 

@@ -30,7 +30,7 @@
 				    <h3 class="panel-title">Uprawnienia</h3>
 				  </div>
 				  <div class="panel-body">
-				  	<table class="table text-muted">
+				  	<table class="table">
 				  		<th>Nazwa</th>
 				  		<th>Termin</th>
 							{% for qual in object_list %}
@@ -50,8 +50,16 @@
 				    <h3 class="panel-title">Delegacje</h3>
 				  </div>
 				  <div class="panel-body">
-						<p class="text-muted">Odbyto <span class="badge">{{ trip.trip_count }}</span><br>
-						Rozliczono <span class="badge">{{ trip.settlement_count }}</span></p>
+						<table class="table">
+							<tr>
+								<td>Odbyto</td>
+								<td>{{ trip.trip_count }}</td>
+							</tr>
+							<tr>
+								<td>Rozliczono</td>
+								<td>{{ trip.settlement_count }}</td>
+							</tr>
+						</table>
 				  </div>
 				</div>
 			</div>
@@ -62,9 +70,19 @@
 				    <h3 class="panel-title">Urlopy</h3>
 				  </div>
 				  <div class="panel-body">
-				    <p class="text-muted">Dostępne <span class="badge">{{ leave.available_days }}</span><br>
-						Wykorzystane <span class="badge">{{ leave.days_used }}</span><br>
-						Pozostało <span class="badge">{{ leave.days_left }}</span></p>
+						<table class="table">
+							<tr>
+								<td>Dostępne</td>
+								<td>{{ leave.available_days }}</td>
+							</tr>
+							<tr>
+								<td>Wykorzystane</td>
+								<td>{{ leave.days_used }}</td>
+							</tr>
+								<td>Pozostało</td>
+								<td>{{ leave.days_left }}</td>
+							</tr>
+						</table>
 				  </div>
 				</div>
 			</div>

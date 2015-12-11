@@ -13,7 +13,7 @@
       <tr>
         {% for trip in object_list %}
           <tr>
-            <td><a class="btn btn-default btn-block" href="/trips/{{ trip.id }}/">{{ trip.purpose }}
+            <td><a class="btn btn-link btn-block" href="/trips/{{ trip.id }}/">{{ trip.purpose }}
               </a></td>
             <td>{{ trip.begin_date }}</td>
           </tr>
@@ -39,26 +39,5 @@
       </nav>
     {% endif %}
   </div>
-	<!--
-	<div class="button"><a href="/trips/add_trip/">Dodaj delegację</a></div>
-	<div class="section">
-		<div class="header">Delegacje</div>
-		<table>
-			<tr>
-				<th>Nazwa</th>
-				<th>Data</th>
-			</tr>
-			<tr>
-				{% for trip in object_list %}
-					<tr>
-						<td><a href="/trips/{{ trip.id }}/">{{ trip.purpose }}
-							</a></td>
-						<td>{{ trip.begin_date }}</td>
-					</tr>
-				{% endfor %}
-			</tr>
-		</table>
-	</div>
-  -->
 
 {% endblock %}

@@ -63,6 +63,10 @@ INSTALLED_APPS = (
     'ajax_select',
     'notification',
     'mailer',
+    'filer',
+    'mptt',
+    'easy_thumbnails',
+    'calendarium',
 )
 
 MIDDLEWARE_CLASSES = (

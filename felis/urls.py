@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^messages/', include('postman.urls', namespace="postman",
         app_name="postman")),
+    url(r'^calendar/', include('calendarium.urls')),
     url(r'^autocomplete/', include(ajax_select_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

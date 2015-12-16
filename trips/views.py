@@ -35,7 +35,12 @@ class TripsDetailView(generic.DetailView):
 
 		context['trip_employees'] = BusinessTripEmployee.objects.filter(
 			business_trip=self.kwargs.get('pk', ''))
-	
+
+		context['is_part'] = BusinessTripEmployee.objects.filter(
+			business_trip=self.kwargs.get('pk', '')).filter(
+			employee=self.request.user
+			).exists()
+
 		return context
 
 	@method_decorator(login_required)

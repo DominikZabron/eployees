@@ -268,8 +268,13 @@ class UpdateAllowanceView(edit.UpdateView):
 
 class AddCostFormView(edit.FormView):
 	template_name = 'add_cost.html'
-
-	def get_form_class(self):
+	
+	def get_form_kwargs(self):
+		kwargs = super(AddCostFormView, self).get_form_kwargs()
+		kwargs['pk'] = self.kwargs.get('pk', '')
+		return kwargs
+	
+	def get_form_class(self, **kwargs):
 		if self.kwargs.get('type', '') == '0':
 			return AddOtherForm
 		elif self.kwargs.get('type', '') == '1':

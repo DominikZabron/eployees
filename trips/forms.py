@@ -62,11 +62,23 @@ class AddAllowanceForm(ModelForm):
 
 
 class AddFareForm(ModelForm):
+
+	def __init__(self, pk, *args, **kwargs):
+		super(AddFareForm, self).__init__(*args, **kwargs)
+		self.fields['route'].queryset = BusinessTripRoute.objects.filter(
+			settlement__trip_employee__business_trip=pk)
+
 	class Meta:
 		model = BusinessTripInvoiceFare
 		exclude = ('settlement',)
 
 class AddAccomodationForm(ModelForm):
+
+	def __init__(self, pk, *args, **kwargs):
+		super(AddAccomodationForm, self).__init__(*args, **kwargs)
+		self.fields['overnight'].queryset = BusinessTripAllowance.objects.filter(
+			settlement__trip_employee__business_trip=pk)
+
 	class Meta:
 		model = BusinessTripInvoiceAccomodation
 		exclude = ('settlement',)
@@ -77,6 +89,13 @@ class AddOtherForm(ModelForm):
 		exclude = ('settlement',)
 
 class AddMilageForm(ModelForm):
+
+	def __init__(self, pk, *args, **kwargs):
+		super(AddMilageForm, self).__init__(*args, **kwargs)
+		self.fields['route'].queryset = BusinessTripRoute.objects.filter(
+			settlement__trip_employee__business_trip=pk)
+		self.fields['name'].initial = pk
+
 	class Meta:
 		model = BusinessTripInvoiceMilage
 		exclude = ('settlement',)
